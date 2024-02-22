@@ -32,8 +32,8 @@ class Snake:
 
     def __init__(self, grid_square_size, window_width, window_height):
         self.square_size = grid_square_size
-        self.x_pos = self.square_size
-        self.y_pos = self.square_size
+        self.x_pos = self.square_size * 4  # snake starts in middle of grid
+        self.y_pos = self.square_size * 6
         self.display_width = window_width
         self.display_height = window_height
         self.body = [pygame.Rect(self.x_pos - self.square_size, self.y_pos, self.square_size, grid_square_size)]

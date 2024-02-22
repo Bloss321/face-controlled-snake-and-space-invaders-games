@@ -1,0 +1,37 @@
+
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 126, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 45, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 145, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 310, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]}
+Simple game hand-controlled metrics {'number_of_game_failures': 69, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 283, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 103, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 39, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 16, 'scores_per_game': [0, 1, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 11, 'scores_per_game': [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 8, 'scores_per_game': [0, 0, 0, 0, 1, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 11, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1]}
+Simple game hand-controlled metrics {'number_of_game_failures': 12, 'scores_per_game': [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 3, 'scores_per_game': [0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 2, 'scores_per_game': [0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 5, 'scores_per_game': [0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 4, 'scores_per_game': [0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 4, 'scores_per_game': [0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 3, 'scores_per_game': [0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 3, 'scores_per_game': [0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 7, 'scores_per_game': [0, 1, 0, 2, 2, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 8, 'scores_per_game': [0, 0, 3, 0, 0, 0, 0, 2]}
+Simple game hand-controlled metrics {'number_of_game_failures': 6, 'scores_per_game': [2, 0, 0, 0, 7, 0, 6]}
+Simple game hand-controlled metrics {'number_of_game_failures': 7, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 7, 'scores_per_game': [0, 2, 0, 1, 0, 1, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 9, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 2, 'scores_per_game': [0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 2, 'scores_per_game': [0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 3, 'scores_per_game': [0, 0, 1]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 5, 'scores_per_game': [0, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [1]}
+Simple game hand-controlled metrics {'number_of_game_failures': 56, 'scores_per_game': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}

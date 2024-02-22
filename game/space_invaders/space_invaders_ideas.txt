@@ -1,0 +1,20 @@
+* bullet frenzy: nod head up and down
+* shield: shake head left & right
+* dash/boost: extreme tilting of head
+* shoot lasers: smiling/opening mouth
+* as time goes by, increase the speed of the aliens
+
+
+
+all I want from the mediapipe tracker is the tilt (right now):
+I can create a mediapipe tracker class with a direction global variable that is constantly updated?
+extreme tilting to speed up the movement fo the player rocket
+
+
+SPACE INVADERS:
+- extreme head tilting to speed up the movement of the player's rocket (dash/boost function)
+- as time goes by, increase speed of aliens
+ - laser: open mouth (laser frenzy by squinting eyes?)
+
+- smiling, raising eyebrows or open mouth
+- probably choose smiling & open mouths

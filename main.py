@@ -34,6 +34,10 @@ if __name__ == '__main__':
         import game.snake.simple.simple_snake_hand_controlled as simple_hand
         simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
 
+    def mp_simple_hand_controlled_game():
+        import game.snake.simple.mp_simple_snake as mp_simple_hand
+        mp_simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
+
 
     def simple_face_detection_game():
         import cv2
@@ -43,6 +47,14 @@ if __name__ == '__main__':
         c = Calibrate()
         calibration_results = c.general_calibration(cv2.VideoCapture(0))
         simple_face.run_game_with_face_detector(time.time(), simple_game_result_metrics, calibration_results, file_name)
+
+    def legacy_simple_face_detection_game():
+        import cv2
+        import game.snake.simple.legacy.mp_simple_snake_remove_lagging as sF
+        from game.snake.common.face_detector_logic import Calibrate
+
+        c = Calibrate()
+        sF.run_game(time.time(), simple_game_result_metrics, file_name)
 
 
     def advanced_hand_controlled_game():
@@ -77,10 +89,25 @@ if __name__ == '__main__':
         mp_advanced_face.run_game_with_detector_adv(time.time(), advanced_game_result_metrics, calibration_results,
                                                     mp_file_name)
 
+    def space_invaders():
+        import game.space_invaders.hand_controlled_game as hand_space_invaders
+        hand_space_invaders.run_game()
+
+    def mp_space_invaders():
+        import game.space_invaders.face_tracking_game as face_tracking_space_invaders
+        face_tracking_space_invaders.run_game()
+
+    # legacy_simple_face_detection_game()
+    # mp_simple_hand_controlled_game()
+    mp_space_invaders()
+    # space_invaders()
+
+    '''
 
     print("Welcome to the Snake game, here are your options.\n 1. Simple hand-controlled game"
           "\n 2. Simple face-tracking game\n 3. Advanced hand-controlled game "
-          "\n 4. Advanced face-tracking game \n 5. MediaPipe Advanced face-tracking game")
+          "\n 4. Advanced face-tracking game \n 5. MediaPipe Simple face-tracking game"
+          "\n 6. Space Invaders hand-controlled game \n 7. Space Invaders face-tracking game")
 
     while True:
         if keyboard.is_pressed("1"):
@@ -96,5 +123,12 @@ if __name__ == '__main__':
             advanced_face_detection_game()
             break
         elif keyboard.is_pressed("5"):
-            mp_advanced_face_detection_game()
+            mp_simple_hand_controlled_game()
             break
+        elif keyboard.is_pressed("6"):
+            space_invaders()
+            break
+        elif keyboard.is_pressed("7"):
+            mp_space_invaders()
+            break
+            '''
