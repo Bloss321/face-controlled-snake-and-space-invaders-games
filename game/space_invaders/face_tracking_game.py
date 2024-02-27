@@ -17,7 +17,7 @@ pygame.init()
 
 display = pygame.display.set_mode((1120, 600))  # width was 800
 
-background = pygame.image.load('game/space_invaders/background.png')
+background = pygame.image.load('game/space_invaders/images/background.png')
 
 pygame.display.set_caption("Space Invaders")
 font = pygame.font.Font('freesansbold.ttf', 32)

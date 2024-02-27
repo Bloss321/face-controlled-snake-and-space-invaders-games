@@ -25,9 +25,9 @@ class Player:
 
     def is_shield_activated(self):
         if self.shield_activated:
-            self.image = pygame.image.load('game/space_invaders/shield_activated.png')
+            self.image = pygame.image.load('game/space_invaders/images/shield_activated.png')
         else:
-            self.image = pygame.image.load('game/space_invaders/player.png')
+            self.image = pygame.image.load('game/space_invaders/images/player.png')
 
     def generate(self, display):
         display.blit(self.image, (self.x_pos, self.y_pos))

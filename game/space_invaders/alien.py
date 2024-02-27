@@ -6,14 +6,14 @@ import pygame
 class Alien:
     def __init__(self):
         images = [
-            pygame.image.load('game/space_invaders/aliens/alien_1.png'),
-            pygame.image.load('game/space_invaders/aliens/alien_2.png'),
-            pygame.image.load('game/space_invaders/aliens/alien_3.png'),
-            pygame.image.load('game/space_invaders/aliens/alien_4.png'),
-            pygame.image.load('game/space_invaders/aliens/alien_5.png'),
-            pygame.image.load('game/space_invaders/aliens/alien_6.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_1.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_2.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_3.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_4.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_5.png'),
+            pygame.image.load('game/space_invaders/images/aliens/alien_6.png'),
         ]
-        self.image = random.choice(images)  # pygame.image.load('game/space_invaders/alien.png')
+        self.image = random.choice(images)
         self.x_pos = random.randint(0, 736)
         self.y_pos = random.randint(50, 150)
         self.x_change = 4

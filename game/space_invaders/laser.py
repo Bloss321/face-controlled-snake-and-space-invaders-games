@@ -8,7 +8,7 @@ from game.space_invaders.alien import Alien
 
 class Laser:
     def __init__(self):
-        self.image = pygame.image.load('game/space_invaders/laser_beam.png')
+        self.image = pygame.image.load('game/space_invaders/images/laser_beam.png')
         self.x_pos = 0
         self.y_pos = 480
         self.state = "inactive"
