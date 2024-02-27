@@ -1,5 +1,4 @@
 import time
-import keyboard
 import psutil
 
 if __name__ == '__main__':
@@ -34,9 +33,9 @@ if __name__ == '__main__':
         import game.snake.simple.simple_snake_hand_controlled as simple_hand
         simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
 
-    def mp_simple_hand_controlled_game():
-        import game.snake.simple.mp_simple_snake as mp_simple_hand
-        mp_simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
+    def mp_simple_face_controlled_game():
+        import game.snake.simple.mp_simple_snake as mp_simple_face
+        mp_simple_face.run_game(time.time(), simple_game_result_metrics, file_name)
 
 
     def simple_face_detection_game():
@@ -50,7 +49,15 @@ if __name__ == '__main__':
 
     def legacy_simple_face_detection_game():
         import cv2
-        import game.snake.simple.legacy.mp_simple_snake_remove_lagging as sF
+        import game.snake.simple.mp_simple_snake_remove_lagging as sF
+        from game.snake.common.face_detector_logic import Calibrate
+
+        c = Calibrate()
+        sF.run_game(time.time(), simple_game_result_metrics, file_name)
+
+    def hpe_simple_face_detection_game():
+        import cv2
+        import game.snake.simple.mp_simple_snake_hpe as sF
         from game.snake.common.face_detector_logic import Calibrate
 
         c = Calibrate()
@@ -97,9 +104,10 @@ if __name__ == '__main__':
         import game.space_invaders.face_tracking_game as face_tracking_space_invaders
         face_tracking_space_invaders.run_game()
 
-    # legacy_simple_face_detection_game()
-    # mp_simple_hand_controlled_game()
-    mp_space_invaders()
+    # hpe_simple_face_detection_game()
+    legacy_simple_face_detection_game()
+    # mp_simple_face_controlled_game()
+    # mp_space_invaders()
     # space_invaders()
 
     '''

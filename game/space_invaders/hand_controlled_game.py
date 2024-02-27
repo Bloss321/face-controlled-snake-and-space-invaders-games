@@ -17,8 +17,6 @@ background = pygame.image.load('game/space_invaders/background.png')
 # mixer.music.play(-1)
 
 pygame.display.set_caption("Space Invaders")
-icon = pygame.image.load('game/space_invaders/ufo.png')
-pygame.display.set_icon(icon)
 font = pygame.font.Font('freesansbold.ttf', 32)
 
 

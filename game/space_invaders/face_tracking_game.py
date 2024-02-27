@@ -1,3 +1,4 @@
+import time
 from statistics import mean
 
 import pygame
@@ -18,12 +19,7 @@ display = pygame.display.set_mode((1120, 600))  # width was 800
 
 background = pygame.image.load('game/space_invaders/background.png')
 
-# mixer.music.load("background.wav")
-# mixer.music.play(-1)
-
 pygame.display.set_caption("Space Invaders")
-# icon = pygame.image.load('game/space_invaders/ufo.png')
-# pygame.display.set_icon(icon)
 font = pygame.font.Font('freesansbold.ttf', 32)
 
 
@@ -38,6 +34,22 @@ def display_game_over():
     display.blit(over_text, (200, 250))
 
 
+shield_timer_running = False
+start_shield_time = 0
+
+
+def start_shield_timer():
+    global shield_timer_running, start_shield_time
+    shield_timer_running = True
+    start_shield_time = time.time()
+
+
+def stop_shield_timer():
+    global shield_timer_running
+    shield_timer_running = False
+    pass
+
+
 def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
     height = int(frame.shape[0] * scale)
     width = int(frame.shape[1] * scale)
@@ -48,7 +60,7 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
 # add sounds to game later
 
 def run_game():
-    player = Player()  # maybe make laser a player attribute?
+    player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
     score = 0
@@ -59,6 +71,7 @@ def run_game():
     mp_face_mesh = mp.solutions.face_mesh
     # Initialize webcam
     cap = cv2.VideoCapture(0)
+
     frame_count = 0
     neutral_roll_angles = []
     neutral_lips_inner_dist = []
@@ -168,7 +181,7 @@ def run_game():
                                 avg_neutral_roll_angle) >= 4:
                             num = abs(roll_degrees) - abs(avg_neutral_roll_angle)
                             direction = "left " + str(num)
-                            if abs(roll_degrees) - abs(avg_neutral_roll_angle) >= 24:
+                            if abs(roll_degrees) - abs(avg_neutral_roll_angle) >= 20:
                                 player.x_change = -15
                             else:
                                 player.x_change = -5  # was -5
@@ -181,28 +194,16 @@ def run_game():
                                 laser.x_pos = player.x_pos
                                 laser.fire()
 
-                        if is_mouth_open(neutral_lips_inner_dist):
+                        if is_mouth_open(neutral_lips_inner_dist) and player.shield_activated is False:
                             direction = direction + " , Mouth Open"
-                            player.shield_activated = True
-                            player.is_shield_activated()
-                        else:
-                            player.shield_activated = False
-                            player.is_shield_activated()
-
-                        """# check for tilting for directions
-                        if roll_degrees >= -28:  # if player tilts head to right
-                            direction = "right"
-                            player.x_change = 5
-                        elif roll_degrees <= -39:  # if player tilts head to left
-                            direction = "left"
-                            player.x_change = -5
-                        else:
-                            player.x_change = 0
-
-                        if smile_detected(0.54):
-                            if laser.state == "inactive":
-                                laser.x_pos = player.x_pos
-                                laser.fire()"""
+                            player.shield_activation_num += 1
+                            if player.shield_activation_num > player.max_shield_activations:
+                                max_shield_activations_text = font.render("Max Shield Activations Reached", True, (255, 255, 255))
+                                display.blit(max_shield_activations_text, (350, 250))
+                            else:
+                                player.shield_activated = True
+                                player.is_shield_activated()
+                                start_shield_timer()
 
             frame_count += 1
             # frame_60 = resize_video_output(frame, 0.5)
@@ -212,25 +213,23 @@ def run_game():
             display.fill((0, 0, 0))
             display.blit(background, (0, 0))
 
-            # all this logic can go in separate function so that code can be used for CV game
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    game_over = True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        player.x_change = -5
-                    if event.key == pygame.K_RIGHT:
-                        player.x_change = 5
-                    if event.key == pygame.K_SPACE:
-                        '''if laser.state == "inactive":
-                            laser.x_pos = player.x_pos
-                            laser.fire()'''
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                        player.x_change = 0
+            # all this keyboard event logic can go in separate function so that code can be used for CV game
 
             player.move()
             laser.move()
+
+            if shield_timer_running:  # while the shield is activated
+                elapsed_shield_time = time.time() - start_shield_time
+                # Display timer
+                # timer_text = font.render(f"Shield Time: {elapsed_shield_time:.2f}", True, (255, 255, 255))
+                # display.blit(timer_text, (150, 130))
+
+                # check if 3 seconds has passed
+                if elapsed_shield_time >= 3:  # shield is activated for 3 seconds
+                    stop_shield_timer()
+                    player.shield_activated = False
+                    player.is_shield_activated()
+                    print("3 Seconds elapsed!")
 
             for alien in aliens:
                 alien.move()
