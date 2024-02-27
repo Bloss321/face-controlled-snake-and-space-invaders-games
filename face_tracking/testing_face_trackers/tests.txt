@@ -1,0 +1,11 @@
+1. able to correctly identify/separate videos with faces from videos without?
+
+2. able to detect head/face movements in different lighting?
+
+3. able to detect faces with occlusion?
+
+4. able to detect faces of different ethnicities?
+
+5. able to detect fast head/facial movements?
+
+6. able to ignore non-primary faces? 
