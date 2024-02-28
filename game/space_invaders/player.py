@@ -5,8 +5,6 @@ class Player:
     image = None
 
     def __init__(self):
-        # self.image = pygame.image.load('game/space_invaders/player.png')
-        # self.image_shield_activated = pygame.image.load('game/space_invaders/shield_activated.png')
         self.x_pos = 370
         self.y_pos = 480
         self.x_change = 0
@@ -31,3 +29,9 @@ class Player:
 
     def generate(self, display):
         display.blit(self.image, (self.x_pos, self.y_pos))
+
+    def convert_to_rect(self):
+        rect = self.image.get_rect()
+        rect.x = self.x_pos
+        rect.y = self.y_pos
+        return rect

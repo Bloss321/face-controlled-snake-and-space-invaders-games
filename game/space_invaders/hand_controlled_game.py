@@ -65,7 +65,7 @@ def run_game():
 
         for alien in aliens:
             alien.move()
-            has_collided = laser.has_collided(alien)
+            has_collided = laser.has_collided_with_alien(alien)
             if has_collided:
                 laser.regenerate()
                 score += 1

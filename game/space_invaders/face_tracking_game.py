@@ -1,3 +1,4 @@
+import random
 import time
 from statistics import mean
 
@@ -63,10 +64,10 @@ def run_game():
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
+    alien_laser = Laser()
+    alien_laser.is_alien_laser = True
     score = 0
 
-    # window_name = "Mediapipe Face Tracker - Space Invaders"
-    # cv2.namedWindow(window_name)
     # Initialize MediaPipe
     mp_face_mesh = mp.solutions.face_mesh
     # Initialize webcam
@@ -140,9 +141,7 @@ def run_game():
                         ratio = smile_width / jaw_width
                         return ratio
 
-                    # detect if mouth is open for triggering the shield
-
-                    # mesh landmark locations for upper & lower inner lips
+                    # mesh landmark locations for upper & lower inner lips - logic for open mouth check
                     mesh_lips_upper_inner = [78, 191, 80, 81, 82, 13, 312, 311, 310, 415, 308]
                     mesh_lips_lower_inner = [78, 95, 88, 178, 87, 14, 317, 402, 318, 324, 308]
                     lips_upper_inner_landmarks = []
@@ -156,6 +155,7 @@ def run_game():
                                        zip(lips_lower_inner_landmarks, lips_upper_inner_landmarks)]
                     mean_lips_inner_dist = mean(lips_inner_dist)
 
+                    # detect if mouth is open for triggering the shield
                     def is_mouth_open(neutral_inner_lips_dist: list):
                         mean_neutral_inner_lips_dist = mean(neutral_inner_lips_dist)
                         # find the absolute distances between corresponding landmarks for the upper & lower inner lips
@@ -174,17 +174,17 @@ def run_game():
                             num = abs(avg_neutral_roll_angle) - abs(roll_degrees)
                             direction = "right " + str(num)
                             if abs(avg_neutral_roll_angle) - abs(roll_degrees) >= 20:
-                                player.x_change = 15  # speed boost
+                                player.x_change = 15  # speed boost for extreme right tilt
                             else:
-                                player.x_change = 5  # was -5
+                                player.x_change = 5
                         elif roll_degrees < avg_neutral_roll_angle and abs(roll_degrees) - abs(
                                 avg_neutral_roll_angle) >= 4:
                             num = abs(roll_degrees) - abs(avg_neutral_roll_angle)
                             direction = "left " + str(num)
                             if abs(roll_degrees) - abs(avg_neutral_roll_angle) >= 20:
-                                player.x_change = -15
+                                player.x_change = -15  # speed boost for extreme left tilt
                             else:
-                                player.x_change = -5  # was -5
+                                player.x_change = -5
                         else:
                             player.x_change = 0
 
@@ -206,38 +206,43 @@ def run_game():
                                 start_shield_timer()
 
             frame_count += 1
-            # frame_60 = resize_video_output(frame, 0.5)
-            # cv2.imshow(window_name, frame_60)
-            # cv2.moveWindow(window_name, 10, 50)  # this seems to work
 
             display.fill((0, 0, 0))
             display.blit(background, (0, 0))
 
-            # all this keyboard event logic can go in separate function so that code can be used for CV game
-
             player.move()
             laser.move()
+            alien_laser.move_alien_laser()
 
             if shield_timer_running:  # while the shield is activated
                 elapsed_shield_time = time.time() - start_shield_time
-                # Display timer
-                # timer_text = font.render(f"Shield Time: {elapsed_shield_time:.2f}", True, (255, 255, 255))
-                # display.blit(timer_text, (150, 130))
 
-                # check if 3 seconds has passed
-                if elapsed_shield_time >= 3:  # shield is activated for 3 seconds
+                # shield is activated for 3 seconds
+                if elapsed_shield_time >= 3:
                     stop_shield_timer()
                     player.shield_activated = False
                     player.is_shield_activated()
-                    print("3 Seconds elapsed!")
 
             for alien in aliens:
                 alien.move()
-                has_collided = laser.has_collided(alien)
+                has_collided = laser.has_collided_with_alien(alien)
                 if has_collided:
                     laser.regenerate()
                     score += 1
                     alien.__init__()
+
+            if frame_count % 50 == 0:
+                alien = random.choice(aliens)
+                if alien_laser.state == "inactive":
+                    alien_laser.x_pos = alien.x_pos
+                    alien_laser.y_pos = alien.y_pos
+                    alien_laser.fire()
+
+            # check if the alien's laser has collided with a player
+            has_collided_with_player = alien_laser.has_collided_with_player(player)
+            if has_collided_with_player:
+                alien_laser.regenerate()
+                score -= 1  # player's score decreases by 1 each time they are hit by the alien - game should just end
 
             if any(alien.y_pos > 440 for alien in aliens):
                 display_game_over()
@@ -245,6 +250,7 @@ def run_game():
 
             player.generate(display)
             laser.generate(display)
+            alien_laser.generate(display)
             for alien in aliens:
                 alien.generate(display)
             display_score(score)

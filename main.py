@@ -105,9 +105,9 @@ if __name__ == '__main__':
         face_tracking_space_invaders.run_game()
 
     # hpe_simple_face_detection_game()
-    legacy_simple_face_detection_game()
+    # legacy_simple_face_detection_game()
     # mp_simple_face_controlled_game()
-    # mp_space_invaders()
+    mp_space_invaders()
     # space_invaders()
 
     '''
