@@ -43,22 +43,27 @@ def run_game():
         display.fill((0, 0, 0))
         display.blit(background, (0, 0))
 
-        # all this logic can go in separate function so that code can be used for CV game
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT] and keys[pygame.K_LSHIFT]:
+            player.x_change = -10
+        elif keys[pygame.K_LEFT]:
+            player.x_change = -4
+        elif keys[pygame.K_RIGHT] and keys[pygame.K_LSHIFT]:
+            player.x_change = 10
+        elif keys[pygame.K_RIGHT]:
+            player.x_change = 4
+        else:
+            player.x_change = 0
+
+        if keys[pygame.K_SPACE]:
+            if laser.state == "inactive":
+                laser.x_pos = player.x_pos
+                laser.fire()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    player.x_change = -5
-                if event.key == pygame.K_RIGHT:
-                    player.x_change = 5
-                if event.key == pygame.K_SPACE:
-                    if laser.state == "inactive":
-                        laser.x_pos = player.x_pos
-                        laser.fire()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    player.x_change = 0
 
         player.move()
         laser.move()
