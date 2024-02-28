@@ -239,11 +239,8 @@ def run_game():
                     alien_laser.fire()
 
             # check if the alien's laser has collided with a player
-            print("laser state 1 " + str(alien_laser.state))
             has_collided_with_player = alien_laser.has_collided_with_player(player)
             if has_collided_with_player:
-                print("has collided " + str(frame_count))
-                print("laser state 2 " + str(alien_laser.state) + "\n")
                 score -= 1  # player's score decreases by 1 each time they are hit by the alien - game should just end
 
             if any(alien.y_pos > 440 for alien in aliens):

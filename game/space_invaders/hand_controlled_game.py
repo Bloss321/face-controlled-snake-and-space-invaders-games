@@ -1,5 +1,5 @@
 import pygame
-import sys
+import time
 
 from pygame import mixer
 
@@ -28,6 +28,22 @@ def display_game_over():
     display.blit(over_text, (200, 250))
 
 
+shield_timer_running = False
+start_shield_time = 0
+
+
+def start_shield_timer():
+    global shield_timer_running, start_shield_time
+    shield_timer_running = True
+    start_shield_time = time.time()
+
+
+def stop_shield_timer():
+    global shield_timer_running
+    shield_timer_running = False
+    pass
+
+
 # add sounds to game later
 
 def run_game():
@@ -46,7 +62,7 @@ def run_game():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] and keys[pygame.K_LSHIFT]:
-            player.x_change = -10
+            player.x_change = -10  # dash function when player holds shift & left/right direction
         elif keys[pygame.K_LEFT]:
             player.x_change = -4
         elif keys[pygame.K_RIGHT] and keys[pygame.K_LSHIFT]:
@@ -61,12 +77,31 @@ def run_game():
                 laser.x_pos = player.x_pos
                 laser.fire()
 
+        if keys[pygame.K_s] and player.shield_activated is False:
+            player.shield_activation_num += 1
+            if player.shield_activation_num > player.max_shield_activations:
+                max_shield_activations_text = font.render("Max Shield Activations Reached", True, (255, 255, 255))
+                display.blit(max_shield_activations_text, (350, 250))
+            else:
+                player.shield_activated = True
+                player.is_shield_activated()
+                start_shield_timer()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
 
         player.move()
         laser.move()
+
+        if shield_timer_running:  # while the shield is activated
+            elapsed_shield_time = time.time() - start_shield_time
+
+            # shield is activated for 3 seconds
+            if elapsed_shield_time >= 3:
+                stop_shield_timer()
+                player.shield_activated = False
+                player.is_shield_activated()
 
         for alien in aliens:
             alien.move()
