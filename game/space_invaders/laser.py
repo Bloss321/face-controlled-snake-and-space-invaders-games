@@ -55,7 +55,8 @@ class Laser:
     # check if the alien's laser has collided with the player
     def has_collided_with_player(self, player: Player):
         player_rect = player.convert_to_rect()  # only a confirmed kill/collision if the player shield isn't activated
-        if player_rect.colliderect(self.convert_to_rect()) and player.shield_activated is False:
+        if player_rect.colliderect(self.convert_to_rect()) and player.shield_activated is False and self.state == "fire":
+            self.state = "inactive"
             return True
         else:
             return False

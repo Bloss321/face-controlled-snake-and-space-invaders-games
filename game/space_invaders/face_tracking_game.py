@@ -181,7 +181,7 @@ def run_game():
                                 avg_neutral_roll_angle) >= 4:
                             num = abs(roll_degrees) - abs(avg_neutral_roll_angle)
                             direction = "left " + str(num)
-                            if abs(roll_degrees) - abs(avg_neutral_roll_angle) >= 20:
+                            if abs(roll_degrees) - abs(avg_neutral_roll_angle) >= 11:
                                 player.x_change = -15  # speed boost for extreme left tilt
                             else:
                                 player.x_change = -5
@@ -239,9 +239,11 @@ def run_game():
                     alien_laser.fire()
 
             # check if the alien's laser has collided with a player
+            print("laser state 1 " + str(alien_laser.state))
             has_collided_with_player = alien_laser.has_collided_with_player(player)
             if has_collided_with_player:
-                alien_laser.regenerate()
+                print("has collided " + str(frame_count))
+                print("laser state 2 " + str(alien_laser.state) + "\n")
                 score -= 1  # player's score decreases by 1 each time they are hit by the alien - game should just end
 
             if any(alien.y_pos > 440 for alien in aliens):
