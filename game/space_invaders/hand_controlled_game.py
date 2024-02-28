@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 from pygame import mixer
 
@@ -50,12 +51,17 @@ def run_game():
     player = Player()  # maybe make laser a player attribute?
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
+    alien_laser = Laser()
+    alien_laser.is_alien_laser = True
     score = 0
+
+    counter = 0
 
     clock = pygame.time.Clock()
     game_over = False
 
     while not game_over:
+        counter += 1
         display.fill((0, 0, 0))
         display.blit(background, (0, 0))
 
@@ -93,6 +99,7 @@ def run_game():
 
         player.move()
         laser.move()
+        alien_laser.move_alien_laser()
 
         if shield_timer_running:  # while the shield is activated
             elapsed_shield_time = time.time() - start_shield_time
@@ -111,12 +118,25 @@ def run_game():
                 score += 1
                 alien.__init__()
 
+        if counter % 100 == 0:
+            alien = random.choice(aliens)
+            if alien_laser.state == "inactive":
+                alien_laser.x_pos = alien.x_pos
+                alien_laser.y_pos = alien.y_pos
+                alien_laser.fire()
+
+        # check if the alien's laser has collided with a player
+        has_collided_with_player = alien_laser.has_collided_with_player(player)
+        if has_collided_with_player:
+            score -= 1  # player's score decreases by 1 each time they are hit by the alien
+
         if any(alien.y_pos > 440 for alien in aliens):
             display_game_over()
             break
 
         player.generate(display)
         laser.generate(display)
+        alien_laser.generate(display)
         for alien in aliens:
             alien.generate(display)
         display_score(score)
