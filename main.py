@@ -22,7 +22,7 @@ if __name__ == '__main__':
     pygame.display.set_caption("Start Menu")
 
     # load menu title image
-    main_menu_title_original = pygame.image.load('game/menu/images/main menu 3.png')
+    main_menu_title_original = pygame.image.load('game/menu/images/main menu.png')
     # scale down menu title
     scale = (main_menu_title_original.get_width() // 1.5, main_menu_title_original.get_height() // 1.5)
     main_menu_title = pygame.transform.scale(main_menu_title_original, scale)
@@ -77,17 +77,15 @@ if __name__ == '__main__':
         import game.space_invaders.face_tracking_game as face_tracking_space_invaders
         face_tracking_space_invaders.run_game()
 
-
-    def draw_text(text, font, color, surface, x, y):
-        text_obj = font.render(text, True, color)
-        text_rect = text_obj.get_rect()
-        text_rect.center = (x, y)
-        surface.blit(text_obj, text_rect)
-
+    def get_button_rect_values(x_pos, y_pos, image: Surface):
+        rect = image.get_rect()
+        x = x_pos - rect.width / 2
+        y = y_pos - rect.height / 2
+        return x, y
 
     def display_image(x_pos, y_pos, button_image: Surface):
-        rect = button_image.get_rect()
-        display.blit(button_image, (x_pos - rect.width / 2, y_pos - rect.height / 2))
+        top_left = get_button_rect_values(x_pos, y_pos, button_image)
+        display.blit(button_image, top_left)
 
 
     def main_menu():
@@ -101,7 +99,7 @@ if __name__ == '__main__':
             # Draw buttons
             button_width = 200
             button_height = 50
-            button_x = DISPLAY_WIDTH // 2
+            button_x = DISPLAY_WIDTH // 2  # 400
             button_y = 300
 
             # display menu buttons for games
@@ -118,24 +116,33 @@ if __name__ == '__main__':
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                # check if mouse clicked the buttons
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
-                    # check if mouse clicked the buttons
-                    if button_x <= mouse_pos[0] <= button_x + button_width:
-                        if button_y <= mouse_pos[1] <= button_y + button_height:
-                            print("Snake Keyboard Game button clicked")
-                            snake_keyboard_game()
-                        elif button_y + 100 <= mouse_pos[1] <= button_y + 100 + button_height:
-                            print("Snake Face Tracking Game button clicked")
-                            snake_face_game()
-                        elif button_y + 200 <= mouse_pos[1] <= button_y + 200 + button_height:
-                            print("Space Invaders Game button clicked")
-                            space_invaders_keyboard_game()
-                        elif button_y + 300 <= mouse_pos[1] <= button_y + 300 + button_height:
-                            space_invaders_face_game()
-                            # this should only run after the last game has been played?
-                            pygame.quit()
-                            sys.exit()
+
+                    # get top left coordinates for each button to generate equivalent rect
+                    snake_keyboard_button_top_left = get_button_rect_values(button_x, button_y, snake_keyboard_button)
+                    snake_face_button_top_left = get_button_rect_values(button_x, button_y + 100, snake_face_button)
+                    space_invaders_keyboard_button_top_left = get_button_rect_values(button_x, button_y + 200, space_invaders_keyboard_button)
+                    space_invaders_face_button_top_left = get_button_rect_values(button_x, button_y + 300, space_invaders_face_button)
+
+                    if snake_keyboard_button.get_rect(topleft=snake_keyboard_button_top_left).collidepoint(mouse_pos):
+                        print("Snake Keyboard Game button clicked - WORKING")
+                        snake_keyboard_game()
+                    elif snake_face_button.get_rect(topleft=snake_face_button_top_left).collidepoint(mouse_pos):
+                        print("Snake Face Tracking Game button clicked")
+                        snake_face_game()
+                    elif space_invaders_keyboard_button.get_rect(topleft=space_invaders_keyboard_button_top_left).collidepoint(
+                            mouse_pos):
+                        print("Space Invaders keyboard button clicked")
+                        space_invaders_keyboard_game()
+                    elif space_invaders_face_button.get_rect(topleft=space_invaders_face_button_top_left).collidepoint(
+                            mouse_pos):
+                        print("Space Invaders Face Tracking button clicked")
+                        space_invaders_face_game()
+                        # this should only run after the last game has been played?
+                        # pygame.quit()
+                        # sys.exit()
 
 
     main_menu()
