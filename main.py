@@ -1,7 +1,36 @@
 import time
 import psutil
+import pygame
+import sys
+
+from pygame import Surface
 
 if __name__ == '__main__':
+
+    pygame.init()
+
+    DISPLAY_WIDTH = 800  # set up display dimensions
+    DISPLAY_HEIGHT = 800
+
+    # colours for menu
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    GRAY = (200, 200, 200)
+    background_colour = (51, 102, 153)
+
+    display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    pygame.display.set_caption("Start Menu")
+
+    # load menu title image
+    main_menu_title_original = pygame.image.load('game/menu/images/main menu 3.png')
+    # scale down menu title
+    scale = (main_menu_title_original.get_width() // 1.5, main_menu_title_original.get_height() // 1.5)
+    main_menu_title = pygame.transform.scale(main_menu_title_original, scale)
+    # load button images for games
+    snake_keyboard_button = pygame.image.load('game/menu/images/snake keyboard.png')
+    snake_face_button = pygame.image.load('game/menu/images/snake face.png')
+    space_invaders_keyboard_button = pygame.image.load('game/menu/images/space invaders keyboard.png')
+    space_invaders_face_button = pygame.image.load('game/menu/images/space invaders face.png')
 
     file_name = "Test.txt"
 
@@ -29,114 +58,84 @@ if __name__ == '__main__':
         print("-" * 30)
 
 
-    def simple_hand_controlled_game():
+    def snake_keyboard_game():
         import game.snake.simple.simple_snake_hand_controlled as simple_hand
         simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
 
-    def mp_simple_face_controlled_game():
-        import game.snake.simple.mp_simple_snake as mp_simple_face
+
+    def snake_face_game():
+        import game.snake.simple.mp_simple_snake_remove_lagging as mp_simple_face
         mp_simple_face.run_game(time.time(), simple_game_result_metrics, file_name)
 
 
-    def simple_face_detection_game():
-        import cv2
-        import game.snake.simple.simple_snake_with_face_detection as simple_face
-        from game.snake.common.face_detector_logic import Calibrate
-
-        c = Calibrate()
-        calibration_results = c.general_calibration(cv2.VideoCapture(0))
-        simple_face.run_game_with_face_detector(time.time(), simple_game_result_metrics, calibration_results, file_name)
-
-    def legacy_simple_face_detection_game():
-        import cv2
-        import game.snake.simple.mp_simple_snake_remove_lagging as sF
-        from game.snake.common.face_detector_logic import Calibrate
-
-        c = Calibrate()
-        sF.run_game(time.time(), simple_game_result_metrics, file_name)
-
-    def hpe_simple_face_detection_game():
-        import cv2
-        import game.snake.simple.mp_simple_snake_hpe as sF
-        from game.snake.common.face_detector_logic import Calibrate
-
-        c = Calibrate()
-        sF.run_game(time.time(), simple_game_result_metrics, file_name)
-
-
-    def advanced_hand_controlled_game():
-        import game.snake.advanced.advanced_snake_game_hand_controlled as advanced_hand
-        advanced_hand.run_game(time.time(), advanced_game_result_metrics, file_name)
-
-
-    def advanced_face_detection_game():
-        import cv2
-        from game.snake.common.face_detector_logic import Calibrate
-        import game.snake.advanced.advanced_snake_face_detection as advanced_face
-
-        c = Calibrate()
-        calibration_results = c.general_calibration(cv2.VideoCapture(0))
-        advanced_face.run_game_with_detector_adv(time.time(), advanced_game_result_metrics, calibration_results,
-                                                 file_name)
-
-
-    def mp_advanced_face_detection_game():
-        import cv2
-        import mediapipe as mp
-        from game.snake.common.face_detector_logic_mediapipe import Calibrate
-        import game.snake.advanced.advanced_snake_face_detection_mediapipe as mp_advanced_face
-
-        mp_face_mesh = mp.solutions.face_mesh
-        face_mesh = mp_face_mesh.FaceMesh()
-
-        mp_file_name = "mp_test.txt"
-
-        c = Calibrate()
-        calibration_results = c.general_calibration(cv2.VideoCapture(0), face_mesh, mp_face_mesh)
-        mp_advanced_face.run_game_with_detector_adv(time.time(), advanced_game_result_metrics, calibration_results,
-                                                    mp_file_name)
-
-    def space_invaders():
+    def space_invaders_keyboard_game():
         import game.space_invaders.hand_controlled_game as hand_space_invaders
         hand_space_invaders.run_game()
 
-    def mp_space_invaders():
+
+    def space_invaders_face_game():
         import game.space_invaders.face_tracking_game as face_tracking_space_invaders
         face_tracking_space_invaders.run_game()
 
-    # hpe_simple_face_detection_game()
-    # legacy_simple_face_detection_game()
-    # mp_simple_face_controlled_game()
-    # mp_space_invaders()
-    space_invaders()
 
-    '''
+    def draw_text(text, font, color, surface, x, y):
+        text_obj = font.render(text, True, color)
+        text_rect = text_obj.get_rect()
+        text_rect.center = (x, y)
+        surface.blit(text_obj, text_rect)
 
-    print("Welcome to the Snake game, here are your options.\n 1. Simple hand-controlled game"
-          "\n 2. Simple face-tracking game\n 3. Advanced hand-controlled game "
-          "\n 4. Advanced face-tracking game \n 5. MediaPipe Simple face-tracking game"
-          "\n 6. Space Invaders hand-controlled game \n 7. Space Invaders face-tracking game")
 
-    while True:
-        if keyboard.is_pressed("1"):
-            simple_hand_controlled_game()
-            break
-        elif keyboard.is_pressed("2"):
-            simple_face_detection_game()
-            break
-        elif keyboard.is_pressed("3"):
-            advanced_hand_controlled_game()
-            break
-        elif keyboard.is_pressed("4"):
-            advanced_face_detection_game()
-            break
-        elif keyboard.is_pressed("5"):
-            mp_simple_hand_controlled_game()
-            break
-        elif keyboard.is_pressed("6"):
-            space_invaders()
-            break
-        elif keyboard.is_pressed("7"):
-            mp_space_invaders()
-            break
-            '''
+    def display_image(x_pos, y_pos, button_image: Surface):
+        rect = button_image.get_rect()
+        display.blit(button_image, (x_pos - rect.width / 2, y_pos - rect.height / 2))
+
+
+    def main_menu():
+        font = pygame.font.SysFont(None, 40)
+        clock = pygame.time.Clock()
+
+        while True:
+            display.fill(background_colour)
+            display_image(DISPLAY_WIDTH // 2, 150, main_menu_title)
+
+            # Draw buttons
+            button_width = 200
+            button_height = 50
+            button_x = DISPLAY_WIDTH // 2
+            button_y = 300
+
+            # display menu buttons for games
+            display_image(button_x, button_y, snake_keyboard_button)
+            display_image(button_x, button_y + 100, snake_face_button)
+            display_image(button_x, button_y + 200, space_invaders_keyboard_button)
+            display_image(button_x, button_y + 300, space_invaders_face_button)
+
+            pygame.display.update()
+            clock.tick(60)
+
+            # Event handling
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    # check if mouse clicked the buttons
+                    if button_x <= mouse_pos[0] <= button_x + button_width:
+                        if button_y <= mouse_pos[1] <= button_y + button_height:
+                            print("Snake Keyboard Game button clicked")
+                            snake_keyboard_game()
+                        elif button_y + 100 <= mouse_pos[1] <= button_y + 100 + button_height:
+                            print("Snake Face Tracking Game button clicked")
+                            snake_face_game()
+                        elif button_y + 200 <= mouse_pos[1] <= button_y + 200 + button_height:
+                            print("Space Invaders Game button clicked")
+                            space_invaders_keyboard_game()
+                        elif button_y + 300 <= mouse_pos[1] <= button_y + 300 + button_height:
+                            space_invaders_face_game()
+                            # this should only run after the last game has been played?
+                            pygame.quit()
+                            sys.exit()
+
+
+    main_menu()

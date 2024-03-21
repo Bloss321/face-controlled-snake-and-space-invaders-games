@@ -83,4 +83,40 @@ LEGACY Head-pose estimation code:
             # cv2.moveWindow(window_name, 10, 50)
             # cv2.setWindowProperty(window_name, cv2.WND_PROP_TOPMOST, 1)
             # win32gui.SetForegroundWindow(win32gui.FindWindow(None, window_name))
+
+`
+
+* More legacy text:
+
+`
+ def advanced_hand_controlled_game():
+        import game.snake.advanced.advanced_snake_game_hand_controlled as advanced_hand
+        advanced_hand.run_game(time.time(), advanced_game_result_metrics, file_name)
+
+
+    def advanced_face_detection_game():
+        import cv2
+        from game.snake.common.face_detector_logic import Calibrate
+        import game.snake.advanced.advanced_snake_face_detection as advanced_face
+
+        c = Calibrate()
+        calibration_results = c.general_calibration(cv2.VideoCapture(0))
+        advanced_face.run_game_with_detector_adv(time.time(), advanced_game_result_metrics, calibration_results,
+                                                 file_name)
+
+        def mp_advanced_face_detection_game():
+        import cv2
+        import mediapipe as mp
+        from game.snake.common.face_detector_logic_mediapipe import Calibrate
+        import game.snake.advanced.advanced_snake_face_detection_mediapipe as mp_advanced_face
+
+        mp_face_mesh = mp.solutions.face_mesh
+        face_mesh = mp_face_mesh.FaceMesh()
+
+        mp_file_name = "mp_test.txt"
+
+        c = Calibrate()
+        calibration_results = c.general_calibration(cv2.VideoCapture(0), face_mesh, mp_face_mesh)
+        mp_advanced_face.run_game_with_detector_adv(time.time(), advanced_game_result_metrics, calibration_results,
+                                                    mp_file_name)
 `
