@@ -2,7 +2,9 @@ import sys
 import time
 
 import pygame
+from pygame import Surface
 
+from game.countdown.game_countdown import start_game_countdown
 from game.snake.common.helper import Direction
 from game.snake.common.snake import Snake
 from game.snake.common.food import Food
@@ -56,7 +58,6 @@ def check_failure_state(snake: Snake, result_metrics):
         pygame.display.update()
     return failed_game
 
-
 def run_game(start, result_metrics, file_name):
     game_over = False
     failed_game = False
@@ -77,9 +78,14 @@ def run_game(start, result_metrics, file_name):
 
     while not game_over:
 
-        if time.time() > initial_time + 5:
+        # start 3-second countdown at beginning of game
+        if counter == 0:
+            start_game_countdown(display, display_width, display_height)
+            print("Countdown Finished.")
+
+        '''if time.time() > initial_time + 5:
             display_system_resources()
-            initial_time = time.time()
+            initial_time = time.time()'''
 
         counter += 1
         fail_message_duration = 500  # maybe add a break-out flag
@@ -93,7 +99,7 @@ def run_game(start, result_metrics, file_name):
                 message = font.render("Game Over! Your snake is out of bounds!", True, yellow)
 
             if fail_message_duration > 0:
-                display.blit(message, (display_width / 7, display_height / 2.5))
+                display.blit(message, (display_width / 7, display_height / 20))  # display_height / 2.5
                 pygame.display.update()
                 fail_message_duration -= 1
 

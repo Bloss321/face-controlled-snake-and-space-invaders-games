@@ -4,6 +4,7 @@ import random
 
 from pygame import mixer
 
+from game.countdown.game_countdown import start_game_countdown
 from game.space_invaders.alien import Alien
 from game.space_invaders.laser import Laser
 from game.space_invaders.player import Player
@@ -61,6 +62,11 @@ def run_game():
     game_over = False
 
     while not game_over:
+        # start 3-second countdown at beginning of game
+        if counter == 0:
+            start_game_countdown(display, 800, 600)
+            print("Countdown Finished.")
+
         counter += 1
         display.fill((0, 0, 0))
         display.blit(background, (0, 0))

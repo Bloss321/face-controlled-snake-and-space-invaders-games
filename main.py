@@ -22,15 +22,15 @@ if __name__ == '__main__':
     pygame.display.set_caption("Start Menu")
 
     # load menu title image
-    main_menu_title_original = pygame.image.load('game/menu/images/text/main menu.png')
+    main_menu_title_original = pygame.image.load('game/menu/images/text/main menu title.png')
     # scale down menu title
     scale = (main_menu_title_original.get_width() // 1.5, main_menu_title_original.get_height() // 1.5)
     main_menu_title = pygame.transform.scale(main_menu_title_original, scale)
     # load button images for games
-    snake_keyboard_button = pygame.image.load('game/menu/images/snake keyboard.png')
-    snake_face_button = pygame.image.load('game/menu/images/snake face.png')
-    space_invaders_keyboard_button = pygame.image.load('game/menu/images/space invaders keyboard.png')
-    space_invaders_face_button = pygame.image.load('game/menu/images/space invaders face.png')
+    snake_keyboard_button = pygame.image.load('game/menu/images/buttons/snake keyboard.png')
+    snake_face_button = pygame.image.load('game/menu/images/buttons/snake face.png')
+    space_invaders_keyboard_button = pygame.image.load('game/menu/images/buttons/space invaders keyboard.png')
+    space_invaders_face_button = pygame.image.load('game/menu/images/buttons/space invaders face.png')
 
     file_name = "Test.txt"
 
@@ -156,8 +156,8 @@ if __name__ == '__main__':
             display.fill(background_colour)
             pygame.display.set_caption("Keyboard-Controlled Snake Game Menu")
             # load images
-            start_button = pygame.image.load('game/menu/images/start.png')
-            back_button = pygame.image.load('game/menu/images/back.png')
+            start_button = pygame.image.load('game/menu/images/buttons/start.png')
+            back_button = pygame.image.load('game/menu/images/buttons/back.png')
 
             text_scale = (text.get_width() // 1.7, text.get_height() // 1.7)
             game_text = pygame.transform.scale(text, text_scale)

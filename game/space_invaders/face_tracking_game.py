@@ -6,10 +6,10 @@ import pygame
 import cv2
 import mediapipe as mp
 import numpy as np
-import sys
 
 from pygame import mixer
 
+from game.countdown.game_countdown import start_game_countdown
 from game.space_invaders.alien import Alien
 from game.space_invaders.laser import Laser
 from game.space_invaders.player import Player
@@ -74,6 +74,7 @@ def run_game():
     cap = cv2.VideoCapture(0)
 
     frame_count = 0
+    counter = 0
     neutral_roll_angles = []
     neutral_lips_inner_dist = []
     direction = "neutral"
@@ -83,6 +84,13 @@ def run_game():
 
     with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
+            # start 3-second countdown at beginning of game
+            if counter == 0:
+                start_game_countdown(display, 1120, 600)
+                print("Countdown Finished.")
+
+            counter += 1
+
             ret, frame = cap.read()
             if not ret:
                 break

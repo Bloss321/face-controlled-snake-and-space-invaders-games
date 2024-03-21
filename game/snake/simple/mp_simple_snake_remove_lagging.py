@@ -5,6 +5,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+from game.countdown.game_countdown import start_game_countdown
 from game.snake.common.face_detector_logic_mediapipe import resize_video_output
 from game.snake.common.helper import Direction
 from game.snake.common.snake import Snake
@@ -88,6 +89,11 @@ def run_game(start, result_metrics, file_name):
             '''if time.time() > initial_time + 5:  # show system resources after 5 seconds
                 display_system_resources()
                 initial_time = time.time()'''
+
+            # start 3-second countdown at beginning of game
+            '''if counter == 0:
+                start_game_countdown(display, display_width, display_height)
+                print("Countdown Finished.")'''
 
             ret, frame = cap.read()
             if not ret:
