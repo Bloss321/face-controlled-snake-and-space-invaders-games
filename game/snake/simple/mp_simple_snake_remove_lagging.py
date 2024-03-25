@@ -234,4 +234,4 @@ def run_game(start, result_metrics, file_name):
         f.close()
 
         cap.release()
-        pygame.quit()
+        # pygame.quit()

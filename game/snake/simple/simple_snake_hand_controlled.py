@@ -43,9 +43,9 @@ def display_score(score: int):
 
 def display_timer(time: int):
     white = (255, 255, 255)
-    score_font = pygame.font.SysFont("Cooper", grid_square_size)
-    score_text = score_font.render(str(time), True, white)
-    display.blit(score_text, (display_width / 1.13, display_height / 43))
+    font = pygame.font.SysFont("Cooper", grid_square_size)
+    text = font.render(str(time), True, white)
+    display.blit(text, (display_width / 1.13, display_height / 43))
 
 
 def check_failure_state(snake: Snake, result_metrics):

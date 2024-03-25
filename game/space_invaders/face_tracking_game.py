@@ -274,7 +274,7 @@ def run_game():
             clock.tick(60)
 
         cap.release()
-        pygame.quit()
+        # pygame.quit()
 
 
 if __name__ == "__main__":
