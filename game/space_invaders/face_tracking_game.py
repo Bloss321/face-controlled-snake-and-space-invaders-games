@@ -17,7 +17,10 @@ from game.space_invaders.player import Player
 
 pygame.init()
 
-display = pygame.display.set_mode((1120, 600))  # width was 800
+display_width = 1120
+display_height = 600
+
+display = pygame.display.set_mode((display_width, display_height))  # width was 800
 
 background = pygame.image.load('game/space_invaders/images/background.png')
 
@@ -28,6 +31,11 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 def display_score(score: int):
     score = font.render("Score : " + str(score), True, (255, 255, 255))
     display.blit(score, (10, 10))
+
+
+def display_hits_from_invaders(hits: int):
+    score = font.render("Hits : " + str(hits), True, (255, 255, 255))
+    display.blit(score, (200, 10))
 
 
 def display_timer(timer: int):
@@ -68,13 +76,14 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
 
 # add sounds to game later
 
-def run_game(start):
+def run_game(start, result_metrics, file_name):
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
     alien_laser = Laser()
     alien_laser.is_alien_laser = True
     score = 0
+    hits_from_invaders = 0
 
     # Initialize MediaPipe
     mp_face_mesh = mp.solutions.face_mesh
@@ -89,12 +98,13 @@ def run_game(start):
 
     clock = pygame.time.Clock()
     game_over = False
+    failed_game = False
 
     with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
             # start 3-second countdown at beginning of game
             if counter == 0:
-                start_game_countdown(display, 1120, 600)
+                start_game_countdown(display, display_width, display_height)
                 print("Countdown Finished.")
 
             counter += 1
@@ -214,7 +224,8 @@ def run_game(start):
                             direction = direction + " , Mouth Open"
                             player.shield_activation_num += 1
                             if player.shield_activation_num > player.max_shield_activations:
-                                max_shield_activations_text = font.render("Max Shield Activations Reached", True, (255, 255, 255))
+                                max_shield_activations_text = font.render("Max Shield Activations Reached", True,
+                                                                          (255, 255, 255))
                                 display.blit(max_shield_activations_text, (350, 250))
                             else:
                                 player.shield_activated = True
@@ -247,6 +258,7 @@ def run_game(start):
                     score += 1
                     alien.__init__()
 
+            # every 50 frame counts an alien will randomly shoot a laser at the player
             if frame_count % 50 == 0:
                 alien = random.choice(aliens)
                 if alien_laser.state == "inactive":
@@ -257,12 +269,39 @@ def run_game(start):
             # check if the alien's laser has collided with a player
             has_collided_with_player = alien_laser.has_collided_with_player(player)
             if has_collided_with_player:
-                score -= 1  # player's score decreases by 1 each time they are hit by the alien - game should just end
+                hits_from_invaders += 1  # when the player is hit by an alien
 
             # if alien invaders reach bottom of screen
             if any(alien.y_pos > 440 for alien in aliens):
-                display_game_over()
-                game_over = True
+                failed_game = True
+                result_metrics["number_of_game_failures"] += 1
+                result_metrics["scores_per_game"] += [score]
+                result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]
+
+            start_fail_timer = time.time()
+            while failed_game:
+                yellow = (255, 255, 0)
+                font2 = pygame.font.Font('freesansbold.ttf', 25)
+                message = font2.render("Game Over! The Space Invaders have reached you!", True, yellow)
+                if time.time() - start_fail_timer < 3:
+                    display.blit(message, (150, 50))
+                    pygame.display.update()
+                else:
+                    failed_game = False
+
+                    if time.time() - start > 90:
+                        break
+                    else:
+                        continue
+
+                # reset game stats so player starts from 0
+                player = Player()  # maybe make laser a player attribute?
+                aliens = [Alien() for _ in range(6)]
+                laser = Laser()
+                alien_laser = Laser()
+                alien_laser.is_alien_laser = True
+                score = 0
+                hits_from_invaders = 0
 
             player.generate(display)
             laser.generate(display)
@@ -271,6 +310,7 @@ def run_game(start):
                 alien.generate(display)
 
             display_score(score)
+            display_hits_from_invaders(hits_from_invaders)
             display_timer(90 - int(time.time() - start))
 
             if time.time() - start > 90:

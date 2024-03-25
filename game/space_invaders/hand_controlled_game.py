@@ -139,6 +139,7 @@ def run_game(start, result_metrics, file_name):
                 score += 1
                 alien.__init__()
 
+        # a random alien will shoot a laser at player
         if counter % 100 == 0:
             alien = random.choice(aliens)
             if alien_laser.state == "inactive":
@@ -149,14 +150,13 @@ def run_game(start, result_metrics, file_name):
         # check if the alien's laser has collided with a player
         has_collided_with_player = alien_laser.has_collided_with_player(player)
         if has_collided_with_player:
-            hits_from_invaders += 1  # player's score decreases by 1 each time they are hit by the alien
+            hits_from_invaders += 1  # when the player is hit by an alien
 
         # if the alien gets to the bottom of the screen, game over
         player_top_y_pos = display_height - player.image.get_height()
         if any(alien.y_pos > 440 for alien in aliens):
-            print("Player Y Position" + str(player_top_y_pos))
             # display_game_over()
-            failed_game = True  # I'm not using this?
+            failed_game = True
             result_metrics["number_of_game_failures"] += 1
             result_metrics["scores_per_game"] += [score]
             result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]

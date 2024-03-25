@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     # order that games will be played in
     gameplay_order = ["snake keyboard", "snake face", "space invaders keyboard", "space invaders face"]
-    current_game_idx = 2
+    current_game_idx = 3
 
     file_name = "Test.txt"
 
@@ -179,7 +179,7 @@ if __name__ == '__main__':
 
     def space_invaders_face_game():
         import game.space_invaders.face_tracking_game as face_tracking_space_invaders
-        face_tracking_space_invaders.run_game(time.time())
+        face_tracking_space_invaders.run_game(time.time(), space_invaders_result_metrics, file_name)
 
 
     def game_menu(text: Surface, game_type: str):
