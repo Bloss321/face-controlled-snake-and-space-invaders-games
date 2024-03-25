@@ -26,8 +26,8 @@ def display_score(score: int):
 
 def display_timer(timer: int):
     white = (255, 255, 255)
-    font = pygame.font.SysFont("Cooper", 50)
-    text = font.render(str(timer), True, white)
+    cooper_font = pygame.font.SysFont("Cooper", 50)
+    text = cooper_font.render(str(timer), True, white)
     display.blit(text, (400, 10))
 
 

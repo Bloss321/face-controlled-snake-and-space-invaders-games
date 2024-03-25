@@ -30,6 +30,13 @@ def display_score(score: int):
     display.blit(score, (10, 10))
 
 
+def display_timer(timer: int):
+    white = (255, 255, 255)
+    cooper_font = pygame.font.SysFont("Cooper", 50)
+    text = cooper_font.render(str(timer), True, white)
+    display.blit(text, (400, 10))
+
+
 def display_game_over():
     game_over_font = pygame.font.Font('freesansbold.ttf', 64)
     over_text = game_over_font.render("GAME OVER", True, (255, 255, 255))
@@ -61,7 +68,7 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
 
 # add sounds to game later
 
-def run_game():
+def run_game(start):
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
@@ -252,16 +259,22 @@ def run_game():
             if has_collided_with_player:
                 score -= 1  # player's score decreases by 1 each time they are hit by the alien - game should just end
 
+            # if alien invaders reach bottom of screen
             if any(alien.y_pos > 440 for alien in aliens):
                 display_game_over()
-                break
+                game_over = True
 
             player.generate(display)
             laser.generate(display)
             alien_laser.generate(display)
             for alien in aliens:
                 alien.generate(display)
+
             display_score(score)
+            display_timer(90 - int(time.time() - start))
+
+            if time.time() - start > 90:
+                game_over = True  # add result metrics here
 
             frame_60 = resize_video_output(rgb_frame, 0.5)
             rgb_frame = frame_60
@@ -278,4 +291,4 @@ def run_game():
 
 
 if __name__ == "__main__":
-    run_game()
+    run_game(time.time())
