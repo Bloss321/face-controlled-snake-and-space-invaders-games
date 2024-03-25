@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     # order that games will be played in
     gameplay_order = ["snake keyboard", "snake face", "space invaders keyboard", "space invaders face"]
-    current_game_idx = 3
+    current_game_idx = 2
 
     file_name = "Test.txt"
 
@@ -53,10 +53,8 @@ if __name__ == '__main__':
     space_invaders_result_metrics = {
         "number_of_game_failures": 0,
         "scores_per_game": [],  # number of aliens hit successfully
-        "space_invaders_hit_per_game": [],
-        "hits_per_game": []  # number of times player is hit by alien laser per game
+        "hits_from_invaders_per_game": []  # number of times player is hit by alien laser per game
     }
-
 
     # Track system resources
     def display_system_resources():
@@ -157,7 +155,7 @@ if __name__ == '__main__':
                         space_invaders_keyboard_game_menu()
                     elif game_buttons.get(
                             "space invaders face") == space_invaders_face_button and space_invaders_face_button.get_rect(
-                            topleft=space_invaders_face_button_top_left).collidepoint(mouse_pos):
+                        topleft=space_invaders_face_button_top_left).collidepoint(mouse_pos):
                         space_invaders_face_game_menu()
                         # this should only run after the last game has been played?
                         # pygame.quit()
@@ -176,7 +174,7 @@ if __name__ == '__main__':
 
     def space_invaders_keyboard_game():
         import game.space_invaders.hand_controlled_game as hand_space_invaders
-        hand_space_invaders.run_game(time.time())
+        hand_space_invaders.run_game(time.time(), space_invaders_result_metrics, file_name)
 
 
     def space_invaders_face_game():

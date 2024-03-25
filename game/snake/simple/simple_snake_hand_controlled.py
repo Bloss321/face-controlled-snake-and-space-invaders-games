@@ -93,7 +93,7 @@ def run_game(start, result_metrics, file_name):
         while failed_game:
 
             yellow = (255, 255, 0)
-            message = font.render("You have failed the game! Press R to restart or Q to quit", True, yellow)
+            message = font.render("You have failed the game!", True, yellow)
             if snake.has_eaten_itself:
                 message = font.render("Game Over! Your snake has eaten itself!", True, yellow)
             elif snake.is_out_of_bounds:
@@ -151,7 +151,7 @@ def run_game(start, result_metrics, file_name):
         clock.tick(snake_speed)
 
     # pygame.quit()
-    print("Simple Snake Hand")
+    print("Hand-controlled Snake")
     print(result_metrics)
     f = open(file_name, "a")
     f.write("\nSimple game hand-controlled metrics " + str(result_metrics))

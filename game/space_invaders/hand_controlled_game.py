@@ -10,7 +10,8 @@ from game.space_invaders.laser import Laser
 from game.space_invaders.player import Player
 
 pygame.init()
-
+display_width = 800
+display_height = 600
 display = pygame.display.set_mode((800, 600))
 
 background = pygame.image.load('game/space_invaders/images/background.png')
@@ -55,18 +56,20 @@ def stop_shield_timer():
 
 # add sounds to game later
 
-def run_game(start):
+def run_game(start, result_metrics, file_name):
     player = Player()  # maybe make laser a player attribute?
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
     alien_laser = Laser()
     alien_laser.is_alien_laser = True
     score = 0
+    hits_from_invaders = 0
 
     counter = 0
 
     clock = pygame.time.Clock()
     game_over = False
+    failed_game = False
 
     while not game_over:
         # start 3-second countdown at beginning of game
@@ -141,12 +144,42 @@ def run_game(start):
         # check if the alien's laser has collided with a player
         has_collided_with_player = alien_laser.has_collided_with_player(player)
         if has_collided_with_player:
-            score -= 1  # player's score decreases by 1 each time they are hit by the alien
+            hits_from_invaders += 1  # player's score decreases by 1 each time they are hit by the alien
 
         # if the alien gets to the bottom of the screen, game over
+        player_top_y_pos = display_height - player.image.get_height()
         if any(alien.y_pos > 440 for alien in aliens):
-            display_game_over()
-            game_over = True
+            print("Player Y Position" + str(player_top_y_pos))
+            # display_game_over()
+            failed_game = True  # I'm not using this?
+            result_metrics["number_of_game_failures"] += 1
+            result_metrics["scores_per_game"] += [score]
+            result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]
+
+        start_fail_timer = time.time()
+        while failed_game:
+            yellow = (255, 255, 0)
+            font2 = pygame.font.Font('freesansbold.ttf', 25)
+            message = font2.render("Game Over! The Space Invaders have reached you!", True, yellow)
+            if time.time() - start_fail_timer < 3:
+                display.blit(message, (display_width / 7, display_height / 20))
+                pygame.display.update()
+            else:
+                failed_game = False
+
+                if time.time() - start > 90:
+                    break
+                else:
+                    continue
+
+            # reset game stats so player starts from 0
+            player = Player()  # maybe make laser a player attribute?
+            aliens = [Alien() for _ in range(6)]
+            laser = Laser()
+            alien_laser = Laser()
+            alien_laser.is_alien_laser = True
+            score = 0
+            hits_from_invaders = 0
 
         # generate sprites
         player.generate(display)
@@ -159,11 +192,15 @@ def run_game(start):
         display_timer(90 - int(time.time() - start))
 
         if time.time() - start > 90:
-            game_over = True  # deal with the result metrics here
+            game_over = True
+            result_metrics["scores_per_game"] += [score]
+            result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]
 
         pygame.display.update()
         clock.tick(60)
 
-
-if __name__ == "__main__":
-    run_game(time.time())
+    print("Keyboard-Controlled Space Invaders")
+    print(result_metrics)
+    f = open(file_name, "a")
+    f.write("\nKeyboard-controlled Space Invaders metrics " + str(result_metrics))
+    f.close()
