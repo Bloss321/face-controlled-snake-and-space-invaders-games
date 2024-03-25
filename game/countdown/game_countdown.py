@@ -2,9 +2,9 @@ import pygame
 from pygame import Surface
 
 countdown_images_unscaled = [
-    pygame.image.load('game/countdown/countdown 1.png'),
+    pygame.image.load('game/countdown/countdown 3.png'),
     pygame.image.load('game/countdown/countdown 2.png'),
-    pygame.image.load('game/countdown/countdown 3.png')
+    pygame.image.load('game/countdown/countdown 1.png')
 ]
 
 # scale down images
@@ -14,6 +14,7 @@ for count_image in countdown_images_unscaled:
     countdown_images.append(pygame.transform.scale(count_image, scale))
 
 
+# position for centralising the numbers on screen
 def get_count_location(image: Surface, display_width, display_height):
     x_pos = display_width // 2 - (image.get_width() // 2)
     y_pos = display_height // 2 - (image.get_height() // 2)
