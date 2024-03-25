@@ -25,11 +25,16 @@ def display_score(score: int):
     display.blit(score, (10, 10))
 
 
+def display_hits_from_invaders(hits: int):
+    score = font.render("Hits : " + str(hits), True, (255, 255, 255))
+    display.blit(score, (200, 10))
+
+
 def display_timer(timer: int):
     white = (255, 255, 255)
     cooper_font = pygame.font.SysFont("Cooper", 50)
-    text = cooper_font.render(str(timer), True, white)
-    display.blit(text, (400, 10))
+    text = cooper_font.render("Time Left: " + str(timer), True, white)
+    display.blit(text, (500, 10))
 
 
 def display_game_over():
@@ -189,6 +194,7 @@ def run_game(start, result_metrics, file_name):
             alien.generate(display)
 
         display_score(score)
+        display_hits_from_invaders(hits_from_invaders)
         display_timer(90 - int(time.time() - start))
 
         if time.time() - start > 90:
