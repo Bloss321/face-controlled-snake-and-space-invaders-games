@@ -66,3 +66,8 @@ Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_g
 Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}

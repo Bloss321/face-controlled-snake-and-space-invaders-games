@@ -32,20 +32,29 @@ if __name__ == '__main__':
     space_invaders_keyboard_button = pygame.image.load('game/menu/images/buttons/space invaders keyboard.png')
     space_invaders_face_button = pygame.image.load('game/menu/images/buttons/space invaders face.png')
 
+    # load greyed-out button images
+    snake_keyboard_grey_button = pygame.image.load('game/menu/images/buttons/grey/snake keyboard gray.png')
+    snake_face_grey_button = pygame.image.load('game/menu/images/buttons/grey/snake face grey.png')
+    space_invaders_keyboard_grey_button = pygame.image.load('game/menu/images/buttons/grey/space invaders keyboard grey.png')
+    space_invaders_face_grey_button = pygame.image.load('game/menu/images/buttons/grey/space invaders face grey.png')
+
+    # order that games will be played in
+    gameplay_order = ["snake keyboard", "snake face", "space invaders keyboard", "space invaders face"]
+    current_game_idx = 0
+
     file_name = "Test.txt"
 
-    simple_game_result_metrics = {
+    snake_game_result_metrics = {
         "number_of_game_failures": 0,
         "scores_per_game": [],  # number of fruit eaten
     }
 
-    advanced_game_result_metrics = {
+    space_invaders_result_metrics = {
         "number_of_game_failures": 0,
-        "scores_per_game": [],  # number of fruit eaten
-        "snakes_killed_per_game": [],
-        "hits_per_game": []
+        "scores_per_game": [],  # number of aliens hit successfully
+        "space_invaders_hit_per_game": [],
+        "hits_per_game": []  # number of times player is hit by alien laser per game
     }
-
 
     # Track system resources
     def display_system_resources():
@@ -70,6 +79,23 @@ if __name__ == '__main__':
         top_left = get_button_rect_values(x_pos, y_pos, button_image)
         display.blit(button_image, top_left)
 
+    def load_correct_game_buttons(current_game: str):
+        buttons = {
+            "snake keyboard": snake_keyboard_grey_button,
+            "snake face": snake_face_grey_button,
+            "space invaders keyboard": space_invaders_keyboard_grey_button,
+            "space invaders face": space_invaders_face_grey_button
+        }
+        if current_game == "snake keyboard":
+            buttons["snake keyboard"] = snake_keyboard_button
+        elif current_game == "snake face":
+            buttons["snake face"] = snake_face_button
+        elif current_game == "space invaders keyboard":
+            buttons["space invaders keyboard"] = space_invaders_keyboard_button
+        elif current_game == "space invaders face":
+            buttons["space invaders face"] = space_invaders_face_button
+
+        return buttons
 
     def main_menu():
         clock = pygame.time.Clock()
@@ -82,11 +108,13 @@ if __name__ == '__main__':
             button_x = DISPLAY_WIDTH // 2  # 400
             button_y = 300
 
+            game_buttons = load_correct_game_buttons(gameplay_order[current_game_idx])
+
             # display menu buttons for games
-            display_image(button_x, button_y, snake_keyboard_button)
-            display_image(button_x, button_y + 100, snake_face_button)
-            display_image(button_x, button_y + 200, space_invaders_keyboard_button)
-            display_image(button_x, button_y + 300, space_invaders_face_button)
+            display_image(button_x, button_y, game_buttons.get("snake keyboard"))
+            display_image(button_x, button_y + 100, game_buttons.get("snake face"))
+            display_image(button_x, button_y + 200, game_buttons.get("space invaders keyboard"))
+            display_image(button_x, button_y + 300, game_buttons.get("space invaders face"))
 
             pygame.display.update()
             clock.tick(60)
@@ -101,21 +129,22 @@ if __name__ == '__main__':
                     mouse_pos = pygame.mouse.get_pos()
 
                     # get top left coordinates for each button to generate equivalent rect
-                    snake_keyboard_button_top_left = get_button_rect_values(button_x, button_y, snake_keyboard_button)
-                    snake_face_button_top_left = get_button_rect_values(button_x, button_y + 100, snake_face_button)
+                    snake_keyboard_button_top_left = get_button_rect_values(button_x, button_y, game_buttons.get("snake keyboard"))
+                    snake_face_button_top_left = get_button_rect_values(button_x, button_y + 100, game_buttons.get("snake face"))
                     space_invaders_keyboard_button_top_left = get_button_rect_values(button_x, button_y + 200,
-                                                                                     space_invaders_keyboard_button)
+                                                                                     game_buttons.get("space invaders keyboard"))
                     space_invaders_face_button_top_left = get_button_rect_values(button_x, button_y + 300,
-                                                                                 space_invaders_face_button)
+                                                                                 game_buttons.get("space invaders face"))
 
-                    if snake_keyboard_button.get_rect(topleft=snake_keyboard_button_top_left).collidepoint(mouse_pos):
+                    # first check if the button is greyed out or not
+                    if game_buttons.get("snake keyboard") == snake_keyboard_button and snake_keyboard_button.get_rect(topleft=snake_keyboard_button_top_left).collidepoint(mouse_pos):
                         snake_keyboard_game_menu()
-                    elif snake_face_button.get_rect(topleft=snake_face_button_top_left).collidepoint(mouse_pos):
+                    elif game_buttons.get("snake face") == snake_face_button and snake_face_button.get_rect(topleft=snake_face_button_top_left).collidepoint(mouse_pos):
                         snake_face_game_menu()
-                    elif space_invaders_keyboard_button.get_rect(
+                    elif game_buttons.get("space invaders keyboard") == space_invaders_keyboard_button and space_invaders_keyboard_button.get_rect(
                             topleft=space_invaders_keyboard_button_top_left).collidepoint(mouse_pos):
                         space_invaders_keyboard_game_menu()
-                    elif space_invaders_face_button.get_rect(topleft=space_invaders_face_button_top_left).collidepoint(
+                    elif game_buttons.get("space invaders face") == space_invaders_face_button and space_invaders_face_button.get_rect(topleft=space_invaders_face_button_top_left).collidepoint(
                             mouse_pos):
                         space_invaders_face_game_menu()
                         # this should only run after the last game has been played?
@@ -125,12 +154,12 @@ if __name__ == '__main__':
 
     def snake_keyboard_game():
         import game.snake.simple.simple_snake_hand_controlled as simple_hand
-        simple_hand.run_game(time.time(), simple_game_result_metrics, file_name)
+        simple_hand.run_game(time.time(), snake_game_result_metrics, file_name)
 
 
     def snake_face_game():
         import game.snake.simple.mp_simple_snake_remove_lagging as mp_simple_face
-        mp_simple_face.run_game(time.time(), simple_game_result_metrics, file_name)
+        mp_simple_face.run_game(time.time(), snake_game_result_metrics, file_name)
 
 
     def space_invaders_keyboard_game():
@@ -188,12 +217,17 @@ if __name__ == '__main__':
                         else:
                             print("Invalid game type: " + game_type)
                         reset_menu_size()
+                        increment_current_game_idx()
                     elif back_button.get_rect(topleft=back_top_left).collidepoint(mouse_pos):
-                        print("Back button clicked")
-                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()))
-                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()))
                         main_menu()
-                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()) + "\n")
+
+    def increment_current_game_idx():
+        global current_game_idx
+        current_game_idx += 1
+        if current_game_idx > 4:
+            current_game_idx = 0
+        print("Current Game Index: " + str(current_game_idx))
+        return current_game_idx
 
     def reset_menu_size():
         global display
