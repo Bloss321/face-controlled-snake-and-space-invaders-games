@@ -58,6 +58,7 @@ def check_failure_state(snake: Snake, result_metrics):
         pygame.display.update()
     return failed_game
 
+
 def run_game(start, result_metrics, file_name):
     game_over = False
     failed_game = False
@@ -149,10 +150,10 @@ def run_game(start, result_metrics, file_name):
         pygame.display.update()
         clock.tick(snake_speed)
 
-    pygame.quit()
+    # pygame.quit()
     print("Simple Snake Hand")
     print(result_metrics)
     f = open(file_name, "a")
     f.write("\nSimple game hand-controlled metrics " + str(result_metrics))
     f.close()
-    sys.exit()
+    # sys.exit()

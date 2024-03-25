@@ -46,6 +46,7 @@ if __name__ == '__main__':
         "hits_per_game": []
     }
 
+
     # Track system resources
     def display_system_resources():
         cpu_percent = psutil.cpu_percent()
@@ -78,8 +79,6 @@ if __name__ == '__main__':
             display_image(DISPLAY_WIDTH // 2, 150, main_menu_title)
 
             # Draw buttons
-            button_width = 200
-            button_height = 50
             button_x = DISPLAY_WIDTH // 2  # 400
             button_y = 300
 
@@ -110,19 +109,14 @@ if __name__ == '__main__':
                                                                                  space_invaders_face_button)
 
                     if snake_keyboard_button.get_rect(topleft=snake_keyboard_button_top_left).collidepoint(mouse_pos):
-                        print("Snake Keyboard Game button clicked - WORKING")
                         snake_keyboard_game_menu()
                     elif snake_face_button.get_rect(topleft=snake_face_button_top_left).collidepoint(mouse_pos):
-                        print("Snake Face Tracking Game button clicked")
                         snake_face_game_menu()
                     elif space_invaders_keyboard_button.get_rect(
-                            topleft=space_invaders_keyboard_button_top_left).collidepoint(
-                        mouse_pos):
-                        print("Space Invaders keyboard button clicked")
+                            topleft=space_invaders_keyboard_button_top_left).collidepoint(mouse_pos):
                         space_invaders_keyboard_game_menu()
                     elif space_invaders_face_button.get_rect(topleft=space_invaders_face_button_top_left).collidepoint(
                             mouse_pos):
-                        print("Space Invaders Face Tracking button clicked")
                         space_invaders_face_game_menu()
                         # this should only run after the last game has been played?
                         # pygame.quit()
@@ -193,10 +187,17 @@ if __name__ == '__main__':
                             space_invaders_face_game()
                         else:
                             print("Invalid game type: " + game_type)
+                        reset_menu_size()
                     elif back_button.get_rect(topleft=back_top_left).collidepoint(mouse_pos):
                         print("Back button clicked")
+                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()))
+                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()))
                         main_menu()
+                        print("width, height: " + str(display.get_width()) + " " + str(display.get_height()) + "\n")
 
+    def reset_menu_size():
+        global display
+        display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
     def snake_keyboard_game_menu():
         game_text_unscaled = pygame.image.load('game/menu/images/text/snake keyboard text.png')
@@ -220,6 +221,5 @@ if __name__ == '__main__':
         game_text_unscaled = pygame.image.load('game/menu/images/text/space invaders face text.png')
         game_type = "space invaders face"
         game_menu(game_text_unscaled, game_type)
-
 
     main_menu()
