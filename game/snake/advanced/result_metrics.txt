@@ -1,6 +1,0 @@
-    advanced_game_result_metrics = {
-        "number_of_game_failures": 0,
-        "scores_per_game": [],  # number of fruit eaten
-        "snakes_killed_per_game": [],
-        "hits_per_game": []
-    }

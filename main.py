@@ -12,20 +12,17 @@ if __name__ == '__main__':
     DISPLAY_WIDTH = 800  # set up display dimensions
     DISPLAY_HEIGHT = 800
 
-    # colours for menu
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-    GRAY = (200, 200, 200)
     background_colour = (51, 102, 153)
 
     display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     pygame.display.set_caption("Start Menu")
 
-    # load menu title image
+    # load start menu title image
     main_menu_title_original = pygame.image.load('game/menu/images/text/main menu title.png')
     # scale down menu title
     scale = (main_menu_title_original.get_width() // 1.5, main_menu_title_original.get_height() // 1.5)
     main_menu_title = pygame.transform.scale(main_menu_title_original, scale)
+
     # load button images for games
     snake_keyboard_button = pygame.image.load('game/menu/images/buttons/snake keyboard.png')
     snake_face_button = pygame.image.load('game/menu/images/buttons/snake face.png')
@@ -41,7 +38,7 @@ if __name__ == '__main__':
 
     # order that games will be played in
     gameplay_order = ["snake keyboard", "snake face", "space invaders keyboard", "space invaders face"]
-    current_game_idx = 3
+    current_game_idx = 0
 
     file_name = "Test.txt"
 
@@ -56,8 +53,9 @@ if __name__ == '__main__':
         "hits_from_invaders_per_game": []  # number of times player is hit by alien laser per game
     }
 
-    # Track system resources
+
     def display_system_resources():
+        # Track system resources
         cpu_percent = psutil.cpu_percent()
         memory_info = psutil.virtual_memory()
         disk_info = psutil.disk_usage('/')
@@ -103,11 +101,17 @@ if __name__ == '__main__':
         clock = pygame.time.Clock()
 
         while True:
+            # this should only run after the last game has been played
+            if current_game_idx >= 4:
+                end_of_games_page(time.time())
+                pygame.quit()
+                sys.exit()
+
             display.fill(background_colour)
             display_image(DISPLAY_WIDTH // 2, 150, main_menu_title)
 
-            # Draw buttons
-            button_x = DISPLAY_WIDTH // 2  # 400
+            # Initial positions of start menu buttons
+            button_x = DISPLAY_WIDTH // 2
             button_y = 300
 
             game_buttons = load_correct_game_buttons(gameplay_order[current_game_idx])
@@ -121,7 +125,7 @@ if __name__ == '__main__':
             pygame.display.update()
             clock.tick(60)
 
-            # Event handling
+            # event handling
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -157,14 +161,11 @@ if __name__ == '__main__':
                             "space invaders face") == space_invaders_face_button and space_invaders_face_button.get_rect(
                         topleft=space_invaders_face_button_top_left).collidepoint(mouse_pos):
                         space_invaders_face_game_menu()
-                        # this should only run after the last game has been played?
-                        # pygame.quit()
-                        # sys.exit()
 
 
     def snake_keyboard_game():
         import game.snake.simple.simple_snake_hand_controlled as simple_hand
-        simple_hand.run_game(time.time(), snake_game_result_metrics, file_name)
+        simple_hand.run_game(snake_game_result_metrics, file_name)
 
 
     def snake_face_game():
@@ -180,6 +181,19 @@ if __name__ == '__main__':
     def space_invaders_face_game():
         import game.space_invaders.face_tracking_game as face_tracking_space_invaders
         face_tracking_space_invaders.run_game(time.time(), space_invaders_result_metrics, file_name)
+
+
+    def end_of_games_page(start):
+        clock = pygame.time.Clock()
+        while time.time() - start < 5:
+            display.fill(background_colour)
+            pygame.display.set_caption("End of User Study")
+
+            text = pygame.image.load('game/menu/images/text/end game message.png')
+            display_image(400, 300, text)
+
+            pygame.display.update()
+            clock.tick(60)
 
 
     def game_menu(text: Surface, game_type: str):
@@ -227,7 +241,7 @@ if __name__ == '__main__':
                         else:
                             print("Invalid game type: " + game_type)
                         reset_menu_size()
-                        # increment_current_game_idx()
+                        increment_current_game_idx()
                     elif back_button.get_rect(topleft=back_top_left).collidepoint(mouse_pos):
                         main_menu()
 
@@ -242,6 +256,7 @@ if __name__ == '__main__':
 
 
     def reset_menu_size():
+        # to ensure that the menu dimensions stay the same after each game
         global display
         display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 

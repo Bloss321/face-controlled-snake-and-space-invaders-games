@@ -1,14 +1,12 @@
-import sys
+
 import time
 
 import pygame
-from pygame import Surface
 
 from game.countdown.game_countdown import start_game_countdown
 from game.snake.common.helper import Direction
 from game.snake.common.snake import Snake
 from game.snake.common.food import Food
-from track_environment_variables.track_system_resources import display_system_resources
 
 pygame.init()
 
@@ -17,7 +15,7 @@ display_height = 600
 grid_square_size: int = 50
 
 font = pygame.font.SysFont("Comic Sans",
-                           int(grid_square_size / 2))  # change name will change font - block_size*2 (size) !
+                           int(grid_square_size / 2))
 
 display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Hand-controlled Snake Game via keyboard')
@@ -59,14 +57,13 @@ def check_failure_state(snake: Snake, result_metrics):
     return failed_game
 
 
-def run_game(start, result_metrics, file_name):
+def run_game(result_metrics, file_name):
     game_over = False
     failed_game = False
     counter = 0
-    initial_time = time.time()  # 2024 added
 
     snake = Snake(grid_square_size, display_width, display_height)
-    food = Food(display, grid_square_size, 600, 600)  # need to randomise starting pos in Food class
+    food = Food(display, grid_square_size, 600, 600)
     food_arr = [food]
 
     game_grid_area = (display_width / grid_square_size) * (display_height / grid_square_size)
@@ -77,19 +74,15 @@ def run_game(start, result_metrics, file_name):
             new_food = Food(display, grid_square_size, 600, 600)
             food_arr.append(new_food)
 
+    # start 3-second countdown at beginning of game
+    if counter == 0:
+        start_game_countdown(display, display_width, display_height)
+        print("Countdown Finished.")
+    start = time.time()
     while not game_over:
 
-        # start 3-second countdown at beginning of game
-        if counter == 0:
-            start_game_countdown(display, display_width, display_height)
-            print("Countdown Finished.")
-
-        '''if time.time() > initial_time + 5:
-            display_system_resources()
-            initial_time = time.time()'''
-
         counter += 1
-        fail_message_duration = 500  # maybe add a break-out flag
+        start_fail_timer = time.time()
         while failed_game:
 
             yellow = (255, 255, 0)
@@ -99,18 +92,20 @@ def run_game(start, result_metrics, file_name):
             elif snake.is_out_of_bounds:
                 message = font.render("Game Over! Your snake is out of bounds!", True, yellow)
 
-            if fail_message_duration > 0:
-                display.blit(message, (display_width / 7, display_height / 20))  # display_height / 2.5
+            if time.time() - start_fail_timer < 2:  # display failure message for 2 seconds
+                display.blit(message, (display_width / 7, display_height / 20))
                 pygame.display.update()
-                fail_message_duration -= 1
 
                 if time.time() - start > 90:
                     break
                 else:
                     continue
-
-            # reset game stats
-            run_game(start, result_metrics, file_name)
+            else:
+                # reset game stats
+                snake = Snake(grid_square_size, display_width, display_height)
+                food = Food(display, grid_square_size, 600, 600)
+                food_arr = [food]
+                break
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -150,10 +145,8 @@ def run_game(start, result_metrics, file_name):
         pygame.display.update()
         clock.tick(snake_speed)
 
-    # pygame.quit()
     print("Hand-controlled Snake")
     print(result_metrics)
     f = open(file_name, "a")
     f.write("\nSimple game hand-controlled metrics " + str(result_metrics))
     f.close()
-    # sys.exit()
