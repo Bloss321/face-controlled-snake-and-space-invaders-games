@@ -330,8 +330,8 @@ def run_game(result_metrics, file_name):
             clock.tick(60)
 
         cap.release()
-        print("Face-Tracking Space Invaders")
+        print("Face-controlled Space Invaders Game")
         print(result_metrics)
         f = open(file_name, "a")
-        f.write("\nFace-controlled Space Invaders metrics " + str(result_metrics))
+        f.write("\nFace-controlled Space Invaders Game metrics " + str(result_metrics))
         f.close()

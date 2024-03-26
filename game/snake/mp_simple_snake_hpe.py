@@ -262,3 +262,11 @@ def run_game(start, result_metrics, file_name):
 
         cap.release()
         pygame.quit()
+
+
+if __name__ == "__main__":
+    snake_game_result_metrics = {
+        "number_of_game_failures": 0,
+        "scores_per_game": [],  # number of fruit eaten
+    }
+    run_game(time.time(), snake_game_result_metrics, "Test.txt")

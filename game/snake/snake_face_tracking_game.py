@@ -95,7 +95,7 @@ def run_game(start, result_metrics, file_name):
     if game_counter == 0:
         start_game_countdown(display, display_width, display_height)
 
-    with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
+    with mp_face_mesh.FaceMesh(max_num_faces=1, min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
             game_counter += 1
 
@@ -103,7 +103,7 @@ def run_game(start, result_metrics, file_name):
             if not ret:
                 break
 
-            # Flip the frame horizontally for a later selfie-view display
+            # Flip the frame horizontally for mirrored view
             frame = cv2.flip(frame, 1)
             # Convert the BGR image to RGB
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -231,10 +231,10 @@ def run_game(start, result_metrics, file_name):
             pygame.display.update()
             clock.tick(snake_speed)
 
-        print("Simple Snake Hand")
+        print("Face-controlled Snake Game")
         print(result_metrics)
         f = open(file_name, "a")
-        f.write("\nSimple game hand-controlled metrics " + str(result_metrics))
+        f.write("\nFace-controlled Snake Game metrics " + str(result_metrics))
         f.close()
 
         cap.release()

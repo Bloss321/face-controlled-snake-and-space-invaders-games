@@ -203,8 +203,8 @@ def run_game(result_metrics, file_name):
         pygame.display.update()
         clock.tick(60)
 
-    print("Keyboard-Controlled Space Invaders")
+    print("Keyboard-Controlled Space Invaders Game")
     print(result_metrics)
     f = open(file_name, "a")
-    f.write("\nKeyboard-controlled Space Invaders metrics " + str(result_metrics))
+    f.write("\nKeyboard-controlled Space Invaders Game metrics " + str(result_metrics))
     f.close()

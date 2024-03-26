@@ -164,23 +164,23 @@ if __name__ == '__main__':
 
 
     def snake_keyboard_game():
-        import game.snake.snake_keyboard_controlled_game as simple_hand
-        simple_hand.run_game(snake_game_result_metrics, file_name)
+        import game.snake.snake_keyboard_controlled_game as game
+        game.run_game(snake_game_result_metrics, file_name)
 
 
     def snake_face_game():
-        import game.snake.snake_face_tracking_game as snake_face
-        snake_face.run_game(time.time(), snake_game_result_metrics, file_name)
+        import game.snake.snake_face_tracking_game as game
+        game.run_game(time.time(), snake_game_result_metrics, file_name)
 
 
     def space_invaders_keyboard_game():
-        import game.space_invaders.hand_controlled_game as hand_space_invaders
-        hand_space_invaders.run_game(space_invaders_result_metrics, file_name)
+        import game.space_invaders.space_invaders_keyboard_controlled_game as game
+        game.run_game(space_invaders_result_metrics, file_name)
 
 
     def space_invaders_face_game():
-        import game.space_invaders.face_tracking_game as face_tracking_space_invaders
-        face_tracking_space_invaders.run_game(space_invaders_result_metrics, file_name)
+        import game.space_invaders.space_invaders_face_tracking_game as game
+        game.run_game(space_invaders_result_metrics, file_name)
 
 
     def end_of_games_page(start):

@@ -113,3 +113,11 @@ Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_g
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Snake hand-controlled metrics {'number_of_game_failures': 8, 'scores_per_game': [2, 3, 0, 1, 3, 0, 0, 0, 0]}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [10]}
+Face-controlled Snake Game metrics {'number_of_game_failures': 8, 'scores_per_game': [10, 1, 1, 2, 1, 0, 0, 2, 2]}
+Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [82], 'hits_from_invaders_per_game': [8]}
+Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [82, 27], 'hits_from_invaders_per_game': [8, 11]}

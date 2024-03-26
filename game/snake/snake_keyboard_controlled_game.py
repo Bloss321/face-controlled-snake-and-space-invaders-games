@@ -108,6 +108,7 @@ def run_game(result_metrics, file_name):
                 break
 
         for event in pygame.event.get():
+            # remove in final version
             if event.type == pygame.QUIT:
                 game_over = True
 
@@ -145,8 +146,8 @@ def run_game(result_metrics, file_name):
         pygame.display.update()
         clock.tick(snake_speed)
 
-    print("Hand-controlled Snake")
+    print("Keyboard-controlled Snake Game")
     print(result_metrics)
     f = open(file_name, "a")
-    f.write("\nSimple game hand-controlled metrics " + str(result_metrics))
+    f.write("\nKeyboard-controlled Snake Game metrics " + str(result_metrics))
     f.close()
