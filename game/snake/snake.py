@@ -1,7 +1,7 @@
 import pygame
 
-from game.snake.common.food import Food
-from game.snake.common.helper import Direction
+from game.snake.food import Food
+from game.snake.helper import Direction
 
 
 class Snake:

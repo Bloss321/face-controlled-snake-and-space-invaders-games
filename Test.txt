@@ -108,3 +108,7 @@ Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 3, 'score
 Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
 Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
 Face-controlled Space Invaders metrics {'number_of_game_failures': 1, 'scores_per_game': [1, 0], 'hits_from_invaders_per_game': [1, 2]}
+Simple game hand-controlled metrics {'number_of_game_failures': 2, 'scores_per_game': [1, 1]}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}

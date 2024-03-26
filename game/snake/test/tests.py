@@ -1,7 +1,7 @@
 import unittest
 
 from game.snake.advanced.bad_snakes import BadSnakes
-from game.snake.common.snake import Snake
+from game.snake.snake import Snake
 import game.snake.simple.simple_snake_hand_controlled as simple_hand
 import game.snake.advanced.advanced_snake_game_hand_controlled as advanced_hand
 

@@ -4,9 +4,9 @@ import time
 import pygame
 
 from game.countdown.game_countdown import start_game_countdown
-from game.snake.common.helper import Direction
-from game.snake.common.snake import Snake
-from game.snake.common.food import Food
+from game.snake.helper import Direction
+from game.snake.snake import Snake
+from game.snake.food import Food
 
 pygame.init()
 

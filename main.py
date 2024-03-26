@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     # order that games will be played in
     gameplay_order = ["snake keyboard", "snake face", "space invaders keyboard", "space invaders face"]
-    current_game_idx = 3
+    current_game_idx = 0
 
     file_name = "Test.txt"
 
@@ -164,13 +164,13 @@ if __name__ == '__main__':
 
 
     def snake_keyboard_game():
-        import game.snake.simple.simple_snake_hand_controlled as simple_hand
+        import game.snake.snake_keyboard_controlled_game as simple_hand
         simple_hand.run_game(snake_game_result_metrics, file_name)
 
 
     def snake_face_game():
-        import game.snake.simple.mp_simple_snake_remove_lagging as mp_simple_face
-        mp_simple_face.run_game(time.time(), snake_game_result_metrics, file_name)
+        import game.snake.snake_face_tracking_game as snake_face
+        snake_face.run_game(time.time(), snake_game_result_metrics, file_name)
 
 
     def space_invaders_keyboard_game():

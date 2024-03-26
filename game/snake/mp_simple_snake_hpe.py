@@ -1,4 +1,3 @@
-import sys
 import time
 
 import pygame
@@ -6,10 +5,9 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from game.snake.common.face_detector_logic_mediapipe import resize_video_output
-from game.snake.common.helper import Direction
-from game.snake.common.snake import Snake
-from game.snake.common.food import Food
+from game.snake.helper import Direction
+from game.snake.snake import Snake
+from game.snake.food import Food
 from track_environment_variables.track_system_resources import display_system_resources
 
 pygame.init()
@@ -59,6 +57,14 @@ def check_failure_state(snake: Snake, result_metrics):
         result_metrics["scores_per_game"] += [score]
         pygame.display.update()  # why am I calling this??
     return failed_game
+
+
+# rescale output video showing facial landmarks
+def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
+    height = int(frame.shape[0] * scale)
+    width = int(frame.shape[1] * scale)
+    new_dimension = (width, height)
+    return cv2.resize(frame, new_dimension, interpolation=cv2.INTER_AREA)
 
 
 def run_game(start, result_metrics, file_name):
