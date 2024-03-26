@@ -99,3 +99,11 @@ Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_g
 Simple game hand-controlled metrics {'number_of_game_failures': 2, 'scores_per_game': [8, 20, 0]}
 Simple game hand-controlled metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
 Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Simple game hand-controlled metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 1, 'scores_per_game': [3, 12], 'hits_from_invaders_per_game': [2, 5]}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 1, 'scores_per_game': [5], 'hits_from_invaders_per_game': [3]}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 3, 'scores_per_game': [3, 5, 4, 4], 'hits_from_invaders_per_game': [3, 1, 1, 1]}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Keyboard-controlled Space Invaders metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}

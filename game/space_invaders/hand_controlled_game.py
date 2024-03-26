@@ -61,7 +61,7 @@ def stop_shield_timer():
 
 # add sounds to game later
 
-def run_game(start, result_metrics, file_name):
+def run_game(result_metrics, file_name):
     player = Player()  # maybe make laser a player attribute?
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
@@ -71,23 +71,24 @@ def run_game(start, result_metrics, file_name):
     hits_from_invaders = 0
 
     counter = 0
+    game_counter = 0
 
     clock = pygame.time.Clock()
     game_over = False
     failed_game = False
 
+    # start 3-second countdown at beginning of game
+    if game_counter == 0:
+        start_game_countdown(display, 800, 600)
+    start = time.time()
     while not game_over:
-        # start 3-second countdown at beginning of game
-        if counter == 0:
-            start_game_countdown(display, 800, 600)
-            print("Countdown Finished.")
-
         counter += 1
+        game_counter += 1
+
         display.fill((0, 0, 0))
         display.blit(background, (0, 0))
 
         keys = pygame.key.get_pressed()
-
         if keys[pygame.K_LEFT] and keys[pygame.K_LSHIFT]:
             player.x_change = -10  # dash function when player holds shift & left/right direction
         elif keys[pygame.K_LEFT]:
@@ -114,7 +115,7 @@ def run_game(start, result_metrics, file_name):
                 player.is_shield_activated()
                 start_shield_timer()
 
-        for event in pygame.event.get():
+        for event in pygame.event.get():  # will remove at end
             if event.type == pygame.QUIT:
                 game_over = True
 
@@ -155,7 +156,6 @@ def run_game(start, result_metrics, file_name):
         # if the alien gets to the bottom of the screen, game over
         player_top_y_pos = display_height - player.image.get_height()
         if any(alien.y_pos > 440 for alien in aliens):
-            # display_game_over()
             failed_game = True
             result_metrics["number_of_game_failures"] += 1
             result_metrics["scores_per_game"] += [score]
@@ -175,16 +175,14 @@ def run_game(start, result_metrics, file_name):
                 if time.time() - start > 90:
                     break
                 else:
-                    continue
-
-            # reset game stats so player starts from 0
-            player = Player()  # maybe make laser a player attribute?
-            aliens = [Alien() for _ in range(6)]
-            laser = Laser()
-            alien_laser = Laser()
-            alien_laser.is_alien_laser = True
-            score = 0
-            hits_from_invaders = 0
+                    # reset game stats so player starts from 0
+                    player = Player()  # maybe make laser a player attribute?
+                    aliens = [Alien() for _ in range(6)]
+                    laser = Laser()
+                    alien_laser = Laser()
+                    alien_laser.is_alien_laser = True
+                    score = 0
+                    hits_from_invaders = 0
 
         # generate sprites
         player.generate(display)

@@ -65,6 +65,7 @@ def run_game(start, result_metrics, file_name):
     game_over = False
     failed_game = False
     counter = 0
+    game_counter = 0
 
     snake = Snake(grid_square_size, display_width, display_height)
     food = Food(display, grid_square_size, 600, 600)  # need to randomise starting pos in Food class
@@ -84,16 +85,13 @@ def run_game(start, result_metrics, file_name):
     # Initialize webcam
     cap = cv2.VideoCapture(0)
 
+    # start 3-second countdown at beginning of game
+    if game_counter == 0:
+        start_game_countdown(display, display_width, display_height)
+
     with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
-            '''if time.time() > initial_time + 5:  # show system resources after 5 seconds
-                display_system_resources()
-                initial_time = time.time()'''
-
-            # start 3-second countdown at beginning of game
-            '''if counter == 0:
-                start_game_countdown(display, display_width, display_height)
-                print("Countdown Finished.")'''
+            game_counter += 1
 
             ret, frame = cap.read()
             if not ret:

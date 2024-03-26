@@ -1,7 +1,13 @@
 import psutil
+import time
 
 
 # Track system resources
+def track_system_resources(initial_time):
+    if time.time() > initial_time + 5:  # show system resources after 5 seconds
+        display_system_resources()
+        initial_time = time.time()
+
 
 def print_gpu_info():
     import subprocess as sp
