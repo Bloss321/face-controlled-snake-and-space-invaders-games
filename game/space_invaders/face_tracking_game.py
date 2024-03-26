@@ -75,7 +75,7 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
 
 # add sounds to game later
 
-def run_game(start, result_metrics, file_name):
+def run_game(result_metrics, file_name):
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
@@ -91,6 +91,7 @@ def run_game(start, result_metrics, file_name):
 
     frame_count = 0
     counter = 0
+    game_counter = 0
     neutral_roll_angles = []
     neutral_lips_inner_dist = []
     direction = "neutral"
@@ -99,14 +100,15 @@ def run_game(start, result_metrics, file_name):
     game_over = False
     failed_game = False
 
+    # start 3-second countdown at beginning of game
+    if counter == 0:
+        start_game_countdown(display, display_width, display_height)
+
+    start = time.time()
     with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
-            # start 3-second countdown at beginning of game
-            if counter == 0:
-                start_game_countdown(display, display_width, display_height)
-                print("Countdown Finished.")
-
             counter += 1
+            game_counter += 1
 
             ret, frame = cap.read()
             if not ret:
@@ -313,7 +315,9 @@ def run_game(start, result_metrics, file_name):
             display_timer(90 - int(time.time() - start))
 
             if time.time() - start > 90:
-                game_over = True  # add result metrics here
+                game_over = True
+                result_metrics["scores_per_game"] += [score]
+                result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]
 
             frame_60 = resize_video_output(rgb_frame, 0.5)
             rgb_frame = frame_60
@@ -326,8 +330,8 @@ def run_game(start, result_metrics, file_name):
             clock.tick(60)
 
         cap.release()
-        # pygame.quit()
-
-
-if __name__ == "__main__":
-    run_game(time.time())
+        print("Face-Tracking Space Invaders")
+        print(result_metrics)
+        f = open(file_name, "a")
+        f.write("\nFace-controlled Space Invaders metrics " + str(result_metrics))
+        f.close()
