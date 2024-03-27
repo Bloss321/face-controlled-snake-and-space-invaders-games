@@ -79,7 +79,9 @@ def run_game(result_metrics, file_name):
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
+    laser.y_jumps = 13
     alien_laser = Laser()
+    alien_laser.y_jumps = 13
     alien_laser.is_alien_laser = True
     score = 0
     hits_from_invaders = 0
@@ -119,14 +121,16 @@ def run_game(result_metrics, file_name):
             # Convert the BGR image to RGB
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # Process the frame with MediaPipe Face Mesh
+            rgb_frame.flags.writeable = False
             results = face_mesh.process(rgb_frame)
+            rgb_frame.flags.writeable = True
 
             # Draw landmarks on the face
             if results.multi_face_landmarks:
                 for face_landmarks in results.multi_face_landmarks:
 
                     # draw the face mesh
-                    for connection in mp_face_mesh.FACEMESH_TESSELATION:
+                    '''for connection in mp_face_mesh.FACEMESH_TESSELATION:
                         edge1, edge2 = connection
                         start_point = face_landmarks.landmark[edge1]
                         end_point = face_landmarks.landmark[edge2]
@@ -135,7 +139,7 @@ def run_game(result_metrics, file_name):
                         start_x, start_y = int(start_point.x * iw), int(start_point.y * ih)
                         end_x, end_y = int(end_point.x * iw), int(end_point.y * ih)
                         # Draw line between landmarks
-                        cv2.line(rgb_frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
+                        cv2.line(rgb_frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)'''
 
                     # Extract relevant facial landmarks for head pose estimation
                     landmarks = np.array([[point.x, point.y, point.z] for point in face_landmarks.landmark])
@@ -146,9 +150,9 @@ def run_game(result_metrics, file_name):
                     # Convert angles from radians to degrees
                     roll_degrees = np.degrees(roll_angle)
                     # Display tilt angles
-                    cv2.putText(rgb_frame, f"Direction: {direction}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 1.5,
-                                (255, 0, 0),
-                                2)
+                    # cv2.putText(rgb_frame, f"Direction: {direction}", (20, 100), cv2.FONT_HERSHEY_SIMPLEX, 1.5,
+                                # (255, 0, 0),
+                                #2)
 
                     # detect smile for shooting lasers
                     def smile_detected(threshold):  # threshold  = 0.54

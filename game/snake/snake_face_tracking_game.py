@@ -108,8 +108,10 @@ def run_game(start, result_metrics, file_name):
             # Convert the BGR image to RGB
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
+            rgb_frame.flags.writeable = False
             # Process the frame with MediaPipe Face Mesh
             results = face_mesh.process(rgb_frame)
+            rgb_frame.flags.writeable = True
 
             img_h, img_w, img_c = rgb_frame.shape
             face_2d = []
@@ -120,7 +122,7 @@ def run_game(start, result_metrics, file_name):
                 for face_landmarks in results.multi_face_landmarks:
 
                     # draw the face mesh
-                    for connection in mp_face_mesh.FACEMESH_TESSELATION:
+                    '''for connection in mp_face_mesh.FACEMESH_TESSELATION:
                         edge1, edge2 = connection
                         start_point = face_landmarks.landmark[edge1]
                         end_point = face_landmarks.landmark[edge2]
@@ -129,7 +131,7 @@ def run_game(start, result_metrics, file_name):
                         start_x, start_y = int(start_point.x * iw), int(start_point.y * ih)
                         end_x, end_y = int(end_point.x * iw), int(end_point.y * ih)
                         # Draw line between landmarks
-                        cv2.line(rgb_frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)
+                        cv2.line(rgb_frame, (start_x, start_y), (end_x, end_y), (0, 255, 0), 2)'''
 
                     for idx, lm in enumerate(face_landmarks.landmark):
                         if idx == 33 or idx == 263 or idx == 1 or idx == 61 or idx == 291 or idx == 199:

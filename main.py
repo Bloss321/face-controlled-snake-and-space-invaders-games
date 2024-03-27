@@ -242,6 +242,7 @@ if __name__ == '__main__':
                             print("Invalid game type: " + game_type)
                         reset_menu_size()
                         increment_current_game_idx()
+                        main_menu()
                     elif back_button.get_rect(topleft=back_top_left).collidepoint(mouse_pos):
                         main_menu()
 
