@@ -129,3 +129,34 @@ Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_pe
 Face-controlled Snake Game metrics {'number_of_game_failures': 3, 'scores_per_game': [0, 1, 1, 13]}
 Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
 Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [23], 'hits_from_invaders_per_game': [8]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 2, 'scores_per_game': [21, 0, 3]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 2, 'scores_per_game': [8, 0]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Face-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': [0]}
+Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [0], 'hits_from_invaders_per_game': [2]}
+Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [1], 'hits_from_invaders_per_game': [1]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [0]}
+Face-controlled Snake Game metrics {'number_of_game_failures': 1, 'scores_per_game': [0, 0]}
+Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [3], 'hits_from_invaders_per_game': [1]}
+Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Face-controlled Snake Game metrics {'number_of_game_failures': 2, 'scores_per_game': [0, 1, 0]}
+Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}

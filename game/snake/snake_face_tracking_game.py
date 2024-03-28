@@ -12,7 +12,7 @@ from game.snake.food import Food
 
 pygame.init()
 
-display_width = 600
+display_width = 600  # now game width/height
 display_height = 600
 grid_square_size: int = 50
 
@@ -67,7 +67,7 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
     return cv2.resize(frame, new_dimension, interpolation=cv2.INTER_AREA)
 
 
-def run_game(start, result_metrics, file_name):
+def run_game(result_metrics, file_name):
     game_over = False
     failed_game = False
     counter = 0
@@ -93,8 +93,9 @@ def run_game(start, result_metrics, file_name):
 
     # start 3-second countdown at beginning of game
     if game_counter == 0:
-        start_game_countdown(display, display_width, display_height)
+        start_game_countdown(display, 920, display_height)
 
+    start = time.time()
     with mp_face_mesh.FaceMesh(max_num_faces=1, min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
         while not game_over:
             game_counter += 1

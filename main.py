@@ -1,5 +1,4 @@
 import time
-import psutil
 import pygame
 import sys
 
@@ -52,18 +51,6 @@ if __name__ == '__main__':
         "scores_per_game": [],  # number of aliens hit successfully
         "hits_from_invaders_per_game": []  # number of times player is hit by alien laser per game
     }
-
-
-    def display_system_resources():
-        # Track system resources
-        cpu_percent = psutil.cpu_percent()
-        memory_info = psutil.virtual_memory()
-        disk_info = psutil.disk_usage('/')
-
-        print(f"CPU Usage: {cpu_percent}%")
-        print(f"Memory Usage: {memory_info.percent}%")
-        print(f"Disk Usage: {disk_info.percent}%")
-        print("-" * 30)
 
 
     def get_button_rect_values(x_pos, y_pos, image: Surface):
@@ -170,7 +157,7 @@ if __name__ == '__main__':
 
     def snake_face_game():
         import game.snake.snake_face_tracking_game as game
-        game.run_game(time.time(), snake_game_result_metrics, file_name)
+        game.run_game(snake_game_result_metrics, file_name)
 
 
     def space_invaders_keyboard_game():
@@ -233,10 +220,13 @@ if __name__ == '__main__':
                         if game_type == "snake keyboard":
                             snake_keyboard_game()
                         elif game_type == "snake face":
+                            display_loading_screen(pygame.image.load('game/menu/images/text/snake loading.png'))
                             snake_face_game()
                         elif game_type == "space invaders keyboard":
                             space_invaders_keyboard_game()
                         elif game_type == "space invaders face":
+                            display_loading_screen(
+                                pygame.image.load('game/menu/images/text/space invaders loading.png'))
                             space_invaders_face_game()
                         else:
                             print("Invalid game type: " + game_type)
@@ -284,6 +274,12 @@ if __name__ == '__main__':
         game_text_unscaled = pygame.image.load('game/menu/images/text/space invaders face text.png')
         game_type = "space invaders face"
         game_menu(game_text_unscaled, game_type)
+
+
+    def display_loading_screen(text: Surface):
+        display.fill(background_colour)
+        display_image(400, 300, text)
+        pygame.display.flip()
 
 
     main_menu()
