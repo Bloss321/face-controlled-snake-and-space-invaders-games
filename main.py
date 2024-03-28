@@ -1,4 +1,6 @@
 import time
+
+import cv2
 import pygame
 import sys
 
@@ -109,6 +111,12 @@ if __name__ == '__main__':
             display_image(button_x, button_y + 200, game_buttons.get("space invaders keyboard"))
             display_image(button_x, button_y + 300, game_buttons.get("space invaders face"))
 
+            # display demo buttons for face tracking games
+            snake_demo_button = pygame.image.load('game/menu/images/buttons/snake demo button.png')
+            space_invaders_demo_button = pygame.image.load('game/menu/images/buttons/space invaders demo button.png')
+            display_image(200, 720, snake_demo_button)
+            display_image(550, 720, space_invaders_demo_button)
+
             pygame.display.update()
             clock.tick(60)
 
@@ -132,6 +140,8 @@ if __name__ == '__main__':
                     space_invaders_face_button_top_left = get_button_rect_values(button_x, button_y + 300,
                                                                                  game_buttons.get(
                                                                                      "space invaders face"))
+                    snake_demo_top_left = get_button_rect_values(200, 720, snake_demo_button)
+                    space_invaders_demo_top_left = get_button_rect_values(550, 720, space_invaders_demo_button)
 
                     # first check if the button is greyed out or not
                     if game_buttons.get("snake keyboard") == snake_keyboard_button and snake_keyboard_button.get_rect(
@@ -148,6 +158,12 @@ if __name__ == '__main__':
                             "space invaders face") == space_invaders_face_button and space_invaders_face_button.get_rect(
                         topleft=space_invaders_face_button_top_left).collidepoint(mouse_pos):
                         space_invaders_face_game_menu()
+
+                    elif snake_demo_button.get_rect(topleft=snake_demo_top_left).collidepoint(mouse_pos):
+                        game_demo_page('game/menu/videos/snake game demo.mp4')
+                    elif space_invaders_demo_button.get_rect(topleft=space_invaders_demo_top_left).collidepoint(
+                            mouse_pos):
+                        game_demo_page('game/menu/videos/Space Invaders demo.mp4')
 
 
     def snake_keyboard_game():
@@ -280,6 +296,45 @@ if __name__ == '__main__':
         display.fill(background_colour)
         display_image(400, 300, text)
         pygame.display.flip()
+
+
+    def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
+        height = int(frame.shape[0] * scale)
+        width = int(frame.shape[1] * scale)
+        new_dimension = (width, height)
+        return cv2.resize(frame, new_dimension, interpolation=cv2.INTER_AREA)
+
+
+    def game_demo_page(demo):
+        # for showing demo videos of the face tracking games
+        display.fill(background_colour)
+        # load and display back button
+        back_button = pygame.image.load('game/menu/images/buttons/back.png')
+        display_image(100, 700, back_button)
+
+        cap = cv2.VideoCapture(demo)  # use opencv to play the demo videos
+        ret, frame = cap.read()
+        frame = resize_video_output(frame, 0.5)  # scale down the video
+        shape = frame.shape[1::-1]  # video shape to pass to pygame
+        clock = pygame.time.Clock()
+        while True:
+            clock.tick(60)
+            ret, frame = cap.read()
+            if ret:
+                frame = resize_video_output(frame, 0.5)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        main_menu()
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        mouse_pos = pygame.mouse.get_pos()
+                        back_top_left = get_button_rect_values(50, 700, back_button)
+                        if back_button.get_rect(topleft=back_top_left).collidepoint(mouse_pos):
+                            main_menu()  # go back to main menu if back button pressed
+            else:
+                break
+            display.blit(pygame.image.frombuffer(frame.tobytes(), shape, "BGR"), (0, 0))
+            pygame.display.update()
+        main_menu()
 
 
     main_menu()
