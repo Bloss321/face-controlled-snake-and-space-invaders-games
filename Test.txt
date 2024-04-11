@@ -160,3 +160,6 @@ Face-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scor
 Keyboard-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
 Face-controlled Snake Game metrics {'number_of_game_failures': 2, 'scores_per_game': [0, 1, 0]}
 Keyboard-controlled Space Invaders Game metrics {'number_of_game_failures': 0, 'scores_per_game': [], 'hits_from_invaders_per_game': []}
+Face-controlled Snake Game metrics {'number_of_game_failures': 5, 'scores_per_game': [1, 2, 1, 1, 0, 0]}
+Face-controlled Snake Game metrics {'number_of_game_failures': 0, 'scores_per_game': []}
+Face-controlled Snake Game metrics {'number_of_game_failures': 3, 'scores_per_game': [4, 2, 12, 1]}

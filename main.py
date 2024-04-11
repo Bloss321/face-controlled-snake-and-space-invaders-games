@@ -176,6 +176,11 @@ if __name__ == '__main__':
         game.run_game(snake_game_result_metrics, file_name)
 
 
+    def snake_face_game_ai():
+        import game.snake.snake_face_tracking_game_svr as game
+        game.run_game(snake_game_result_metrics, file_name)
+
+
     def space_invaders_keyboard_game():
         import game.space_invaders.space_invaders_keyboard_controlled_game as game
         game.run_game(space_invaders_result_metrics, file_name)
@@ -336,5 +341,6 @@ if __name__ == '__main__':
             pygame.display.update()
         main_menu()
 
-
-    main_menu()
+    snake_face_game_ai()
+    # snake_face_game_2()
+    # main_menu()
