@@ -222,8 +222,8 @@ def run_game(result_metrics, file_name):
             if shield_timer_running:  # while the shield is activated
                 elapsed_shield_time = time.time() - start_shield_time
 
-                # shield is activated for 3 seconds
-                if elapsed_shield_time >= 3:
+                # shield is activated for 5 seconds
+                if elapsed_shield_time >= 5:
                     stop_shield_timer()
                     player.shield_activated = False
                     player.is_shield_activated()
@@ -267,7 +267,7 @@ def run_game(result_metrics, file_name):
                 else:
                     failed_game = False
 
-                    if time.time() - start > 90:
+                    if time.time() - start > 120:
                         break
                     else:
                         continue
@@ -289,9 +289,9 @@ def run_game(result_metrics, file_name):
 
             display_score(score)
             display_hits_from_invaders(hits_from_invaders)
-            display_timer(90 - int(time.time() - start))
+            display_timer(120 - int(time.time() - start))
 
-            if time.time() - start > 90:
+            if time.time() - start > 120:
                 game_over = True
                 result_metrics["scores_per_game"] += [score]
                 result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]

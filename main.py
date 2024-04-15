@@ -517,7 +517,7 @@ if __name__ == '__main__':
     # initialise_test_results_file('user_tests/data/unused_unique_ids2.txt')
     # background_questionnaire_page()
     # snake_keyboard_game()
-    # space_invaders_keyboard_game()
+    space_invaders_keyboard_game()
     # snake_face_game()
     space_invaders_face_game()
 

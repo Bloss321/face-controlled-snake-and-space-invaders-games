@@ -44,8 +44,8 @@ def display_score(score: int):
 def display_timer(time: int):
     white = (255, 255, 255)
     score_font = pygame.font.SysFont("Cooper", grid_square_size)
-    score_text = score_font.render(str(time), True, white)
-    display.blit(score_text, (display_width / 1.13, display_height / 43))
+    score_text = score_font.render("Time Left: " + str(time), True, white)
+    display.blit(score_text, (500, 15))
 
 
 def check_failure_state(snake: Snake, result_metrics):
@@ -194,7 +194,7 @@ def run_game(result_metrics, file_name):
                 pygame.display.update()
 
                 if elapsed_time >= fail_message_duration:
-                    if time.time() - start > 90:
+                    if time.time() - start > 120:
                         break
                     else:
                         # reset game stats
@@ -207,7 +207,7 @@ def run_game(result_metrics, file_name):
             display.fill('black')
             create_game_grid()
             display_score(snake.length - 2)
-            display_timer(90 - int(time.time() - start))
+            display_timer(120 - int(time.time() - start))
 
             snake.generate_snake_body(display)
             generate_new_food(counter)
@@ -220,7 +220,7 @@ def run_game(result_metrics, file_name):
 
             failed_game = check_failure_state(snake, result_metrics)
 
-            if time.time() - start > 90:
+            if time.time() - start > 120:
                 game_over = True
                 score = snake.length - 2
                 result_metrics["scores_per_game"] += [score]  # something strange about this
