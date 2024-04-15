@@ -13,18 +13,22 @@ from game.snake.food import Food
 
 pygame.init()
 
-display_width = 600  # now game width/height
+display_width = 800  # now game width/height
 display_height = 600
 grid_square_size: int = 50
 
 font = pygame.font.SysFont("Comic Sans",
                            int(grid_square_size / 2))  # change name will change font - block_size*2 (size) !
 
-display = pygame.display.set_mode((920, 600))  # 920 = game board width + rgb_frame width
+display = pygame.display.set_mode((1120, display_height))  # 920 = game board width + rgb_frame width -
 pygame.display.set_caption('Head-controlled Snake Game')
 
 clock = pygame.time.Clock()
-snake_speed = 4  # add a check so that each time the timer increases by 1 second, speed increases by 0.1
+snake_speed = 3.7  # add a check so that each time the timer increases by 1 second, speed increases by 0.1
+
+def increase_snake_speed():
+    global snake_speed
+    snake_speed += 0.1
 
 
 def create_game_grid():
@@ -75,7 +79,7 @@ def run_game(result_metrics, file_name):
     game_counter = 0
 
     snake = Snake(grid_square_size, display_width, display_height)
-    food = Food(display, grid_square_size, 600, 600)  # need to randomise starting pos in Food class
+    food = Food(display, grid_square_size, display_width, display_height)  # need to randomise starting pos in Food class
     food_arr = [food]
 
     game_grid_area = (display_width / grid_square_size) * (display_height / grid_square_size)
@@ -83,13 +87,14 @@ def run_game(result_metrics, file_name):
 
     def generate_new_food(loop_count: int):
         if loop_count % 25 == 0 and len(food_arr) < max_foods:
-            new_food = Food(display, grid_square_size, 600, 600)
+            new_food = Food(display, grid_square_size, display_width, display_height)
             food_arr.append(new_food)
 
     # Load SVR models from .pkl files
-    svr_pitch = joblib.load('game/snake/svr_pitch_model.pkl')
-    svr_yaw = joblib.load('game/snake/svr_yaw_model.pkl')
-    svr_roll = joblib.load('game/snake/svr_roll_model.pkl')
+    # 'game/snake/head_pose_estimation_regression_models/svr_pitch_model.pkl'
+    # face_tracking / head_pose_estimation / regression_models / svr_pitch_model.pkl
+    svr_pitch = joblib.load('face_tracking/head_pose_estimation/regression_models/svr_pitch_model.pkl')
+    svr_yaw = joblib.load('face_tracking/head_pose_estimation/regression_models/svr_yaw_model.pkl')
 
     # Initialize MediaPipe
     mp_face_mesh = mp.solutions.face_mesh
@@ -100,7 +105,7 @@ def run_game(result_metrics, file_name):
 
     # start 3-second countdown at beginning of game
     if game_counter == 0:
-        start_game_countdown(display, 920, display_height)
+        start_game_countdown(display, 1120, display_height)
 
     start = time.time()
     while cap.isOpened() and not game_over:
@@ -129,16 +134,20 @@ def run_game(result_metrics, file_name):
             pitch = np.degrees(svr_pitch.predict([landmarks_3d])[0])
             yaw = np.degrees(svr_yaw.predict([landmarks_3d])[0])
 
-            if pitch > 20:
+            if pitch > 10:  # was 10
                 snake.direction = Direction.UP
-            elif pitch < -20:
+            elif pitch < -10:
                 snake.direction = Direction.DOWN
-            elif yaw > 30:
+            elif yaw > 20:
                 snake.direction = Direction.LEFT
-            elif yaw < -30:
+            elif yaw < -20:
                 snake.direction = Direction.RIGHT
 
         counter += 1
+
+        if (time.time() - start) % 10 == 0:
+            increase_snake_speed()
+
         fail_message_duration = 2000  # 2 seconds, maybe add a break-out flag
         start_failure_timer = pygame.time.get_ticks()
         while failed_game:
@@ -165,7 +174,7 @@ def run_game(result_metrics, file_name):
                     # reset game stats
                     counter = 0
                     snake = Snake(grid_square_size, display_width, display_height)
-                    food = Food(display, grid_square_size, 600, 600)  # need to randomise starting pos in Food class
+                    food = Food(display, grid_square_size, display_width, display_height)  # need to randomise starting pos in Food class
                     food_arr = [food]
                     break
 
@@ -190,12 +199,16 @@ def run_game(result_metrics, file_name):
             score = snake.length - 2
             result_metrics["scores_per_game"] += [score]  # something strange about this
 
-        frame_60 = resize_video_output(rgb_frame, 0.5)
+        max_dimension = max(rgb_frame.shape[0], rgb_frame.shape[1])
+        total_display_width = display.get_width()
+        scale_value = round((total_display_width - display_width) / max_dimension, 3)
+
+        frame_60 = resize_video_output(rgb_frame, scale_value)
         rgb_frame = frame_60
         rgb_frame = np.flip(rgb_frame, 0)  # mirror the video stream
         rgb_frame = np.rot90(rgb_frame, 3)  # rotate the video stream so its upwards
         rgb_frame = pygame.surfarray.make_surface(rgb_frame)  # apply footage as pygame surface
-        display.blit(rgb_frame, (600, 0))  # add video stream to game window
+        display.blit(rgb_frame, (display_width, 0))  # add video stream to game window
         pygame.display.update()
         clock.tick(snake_speed)
 

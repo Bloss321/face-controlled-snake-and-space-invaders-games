@@ -10,7 +10,7 @@ from game.snake.food import Food
 
 pygame.init()
 
-display_width = 600
+display_width = 800
 display_height = 600
 grid_square_size: int = 50
 
@@ -21,7 +21,12 @@ display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Hand-controlled Snake Game via keyboard')
 
 clock = pygame.time.Clock()
-snake_speed = 4
+snake_speed = 3.8
+
+
+def increase_snake_speed():
+    global snake_speed
+    snake_speed += 0.1
 
 
 def create_game_grid():
@@ -63,7 +68,7 @@ def run_game(result_metrics, file_name):
     counter = 0
 
     snake = Snake(grid_square_size, display_width, display_height)
-    food = Food(display, grid_square_size, 600, 600)
+    food = Food(display, grid_square_size, display_width, display_height)  # was 600, 600
     food_arr = [food]
 
     game_grid_area = (display_width / grid_square_size) * (display_height / grid_square_size)
@@ -71,7 +76,7 @@ def run_game(result_metrics, file_name):
 
     def generate_new_food(loop_count: int):
         if loop_count % 25 == 0 and len(food_arr) < max_foods:
-            new_food = Food(display, grid_square_size, 600, 600)
+            new_food = Food(display, grid_square_size, display_width, display_height)
             food_arr.append(new_food)
 
     # start 3-second countdown at beginning of game
@@ -82,6 +87,10 @@ def run_game(result_metrics, file_name):
     while not game_over:
 
         counter += 1
+
+        if (time.time() - start) % 10 == 0:
+            increase_snake_speed()
+
         start_fail_timer = time.time()
         while failed_game:
 
@@ -103,7 +112,7 @@ def run_game(result_metrics, file_name):
             else:
                 # reset game stats
                 snake = Snake(grid_square_size, display_width, display_height)
-                food = Food(display, grid_square_size, 600, 600)
+                food = Food(display, grid_square_size, display_width, display_height)
                 food_arr = [food]
                 break
 
