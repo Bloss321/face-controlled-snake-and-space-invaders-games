@@ -20,7 +20,6 @@ class Alien:
         self.y_pos = random.randint(50, 150)
         self.x_change = 4
         self.y_change = 40
-        # self.random_drop = False  # to make game more difficult some aliens will speed down the screen to player
 
     def move(self):
         self.x_pos += self.x_change

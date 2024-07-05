@@ -2,8 +2,6 @@ import pygame
 import time
 import random
 
-from pygame import mixer
-
 from game.countdown.game_countdown import start_game_countdown
 from game.space_invaders.alien import Alien
 from game.space_invaders.laser import Laser
@@ -59,10 +57,15 @@ def stop_shield_timer():
     pass
 
 
-# add sounds to game later
+def update_global_screen():
+    global display
+    screen = pygame.display.set_mode((800, 600))
+    display = screen
+
 
 def run_game(result_metrics, file_name):
-    player = Player()  # maybe make laser a player attribute?
+    update_global_screen()
+    player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
     alien_laser = Laser()
@@ -88,15 +91,22 @@ def run_game(result_metrics, file_name):
         display.fill((0, 0, 0))
         display.blit(background, (0, 0))
 
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    game_over = True
+
+        # 10 & 4 values smaller than face tracking 20 and 15 due to
+        # slightly quicker frame execution with no face tracker
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and keys[pygame.K_LSHIFT]:
             player.x_change = -10  # dash function when player holds shift & left/right direction
         elif keys[pygame.K_LEFT]:
-            player.x_change = -4
+            player.x_change = -5
         elif keys[pygame.K_RIGHT] and keys[pygame.K_LSHIFT]:
             player.x_change = 10
         elif keys[pygame.K_RIGHT]:
-            player.x_change = 4
+            player.x_change = 5
         else:
             player.x_change = 0
 
@@ -115,7 +125,7 @@ def run_game(result_metrics, file_name):
                 player.is_shield_activated()
                 start_shield_timer()
 
-        for event in pygame.event.get():  # will remove at end
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game_over = True
 
@@ -154,8 +164,7 @@ def run_game(result_metrics, file_name):
             hits_from_invaders += 1  # when the player is hit by an alien
 
         # if the alien gets to the bottom of the screen, game over
-        player_top_y_pos = display_height - player.image.get_height()
-        if any(alien.y_pos > 440 for alien in aliens):
+        if any(alien.y_pos > 460 for alien in aliens):
             failed_game = True
             result_metrics["number_of_game_failures"] += 1
             result_metrics["scores_per_game"] += [score]
@@ -176,7 +185,7 @@ def run_game(result_metrics, file_name):
                     break
                 else:
                     # reset game stats so player starts from 0
-                    player = Player()  # maybe make laser a player attribute?
+                    player = Player()
                     aliens = [Alien() for _ in range(6)]
                     laser = Laser()
                     alien_laser = Laser()

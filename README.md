@@ -1,30 +1,38 @@
-# 2024-individual-project
-2024 Individual Project code 
+# Face-Controlled Snake and Space Invaders Games
+
+## Overview 
+This is project is an innovative take on the classic Snake and Space Invaders games that uses 
+head movements and facial expressions for control, providing an immersive gaming experience. 
+
+MediaPipe is used for robust face tracking and Pygame for game development. These games eliminate the need for 
+traditional input devices and offers an intuitive way to play.
 
 ## Requirements
-Please ensure that you are using Python 3.10 
+Please ensure that you are using Python 3.10
 
-run `pip freeze > requirements.txt` to create required dependencies
+run `pip install -r requirements.txt` to install required dependencies before running the game 
 
-run `pip install -r requirements.txt` to install required dependencies before starting the game 
+## Running the game 
+To run the game you just need to run the main.py file 
 
-### Commands to run before starting (in terminal):
+## Game Demos
 
-`pip install cmake`
+### Snake 
 
-`pip install opencv-python`
 
-`pip install pygame`
+### Space Invaders 
 
-`pip install mediapipe opencv-python tensorflow`
 
-`pip install face_recognition `
+## Finding Relevant Code
+The game logic can be found in the `game` directory. This is where
+the snake and space invaders games have been written. 
 
-`pip install deepface`
+The game logic is called in the `main.py` file
 
-`pip install dlib`
+The tests and models for the SVR head pose estimator can be found in 
+`face_tracking/svr_head_pose_estimation`
 
-`pip install psutil`
+
 
 
 

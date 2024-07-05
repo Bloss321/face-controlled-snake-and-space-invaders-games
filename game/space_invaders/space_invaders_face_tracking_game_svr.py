@@ -7,9 +7,10 @@ import pygame
 import cv2
 import mediapipe as mp
 import numpy as np
-
-from pygame import mixer
-
+import warnings
+import sklearn
+import scipy.special._cdflib
+import mediapipe.modules.face_landmark
 from game.countdown.game_countdown import start_game_countdown
 from game.space_invaders.alien import Alien
 from game.space_invaders.laser import Laser
@@ -20,7 +21,7 @@ pygame.init()
 display_width = 1120
 display_height = 600
 
-display = pygame.display.set_mode((display_width, display_height))  # width was 800
+display = pygame.display.set_mode((display_width, display_height))
 
 background = pygame.image.load('game/space_invaders/images/background.png')
 
@@ -73,29 +74,34 @@ def resize_video_output(frame, scale):  # scale given as decimal e.g. 0.75
     new_dimension = (width, height)
     return cv2.resize(frame, new_dimension, interpolation=cv2.INTER_AREA)
 
+def update_global_screen():
+    global display
+    screen = pygame.display.set_mode((display_width, display_height))
+    display = screen
 
-# add sounds to game later
 
 def run_game(result_metrics, file_name):
+    update_global_screen()
+
     player = Player()
     aliens = [Alien() for _ in range(6)]
     laser = Laser()
-    laser.y_jumps = 13
+    laser.y_jumps = 16
     alien_laser = Laser()
     alien_laser.y_jumps = 13
     alien_laser.is_alien_laser = True
     score = 0
     hits_from_invaders = 0
 
-    # Initialize MediaPipe
+    # initialize MediaPipe
     mp_face_mesh = mp.solutions.face_mesh
-    # Initialize webcam
+    # open the webcam
     cap = cv2.VideoCapture(0)
 
     frame_count = 0
     counter = 0
     game_counter = 0
-    direction = "neutral"
+    direction = "neutral"  # direction starts at neutral
 
     clock = pygame.time.Clock()
     game_over = False
@@ -105,7 +111,10 @@ def run_game(result_metrics, file_name):
     if counter == 0:
         start_game_countdown(display, display_width, display_height)
 
-    svr_roll = joblib.load('face_tracking/head_pose_estimation/regression_models/svr_roll_model.pkl')
+    svr_roll = joblib.load('game/regression_models/svr_roll_model.pkl')
+    warnings.filterwarnings('ignore',
+                            message="X does not have valid feature names, but SVR was fitted with feature names",
+                            category=UserWarning)
 
     start = time.time()
     with mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5) as face_mesh:
@@ -113,29 +122,47 @@ def run_game(result_metrics, file_name):
             counter += 1
             game_counter += 1
 
-            ret, frame = cap.read()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_over = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        run_game(result_metrics, file_name)
+                    if event.key == pygame.K_q:
+                        game_over = True
+
+
+            ret, frame = cap.read()  # read the frame
             if not ret:
                 break
 
-            # Flip the frame horizontally for a later selfie-view display
+            # flip frame to mirror so mirrored player moves in same direction
             frame = cv2.flip(frame, 1)
-            # Convert the BGR image to RGB
+            # convert the BGR frame to RGB
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # Process the frame with MediaPipe Face Mesh
+            # process frame with MediaPipe Face Mesh
             rgb_frame.flags.writeable = False
             results = face_mesh.process(rgb_frame)
             rgb_frame.flags.writeable = True
 
             # Draw landmarks on the face
-            if results.multi_face_landmarks:
+            if results.multi_face_landmarks:  # if facial landmarks are detected
                 for face_landmarks in results.multi_face_landmarks:
 
-                    landmarks = face_landmarks.landmark
+                    # draw the face mesh
+                    for landmark in face_landmarks.landmark:
+                        x = int(landmark.x * frame.shape[1])
+                        y = int(landmark.y * frame.shape[0])
 
-                    # Extract 3D coordinates of facial landmarks
+                        # draw face mesh points onto webcam video feed
+                        cv2.circle(rgb_frame, (x, y), 2, (0, 255, 0), -1)
+
+                    landmarks = face_landmarks.landmark  # detected landmarks
+
+                    # get 3D coordinates of facial landmarks
                     landmarks_3d = np.array([[lm.x, lm.y, lm.z] for lm in landmarks]).flatten()
 
-                    # Predict head pose angles using SVR models
+                    # predict head pose angles using SVR models
                     roll = np.degrees(svr_roll.predict([landmarks_3d])[0])
 
                     # detect smile for shooting lasers
@@ -177,7 +204,7 @@ def run_game(result_metrics, file_name):
                         else:
                             return False
 
-                    if roll > 20:
+                    if roll > 20:  # roll HPE angle of 20 suggests extreme head movements
                         direction = "right"
                         player.x_change = 15  # speed boost for extreme right tilt
                     elif roll < -20:
@@ -185,19 +212,20 @@ def run_game(result_metrics, file_name):
                         player.x_change = -15  # speed boost for extreme left tilt
                     elif roll > 10:
                         direction = "right"
-                        player.x_change = 5
+                        player.x_change = 10
                     elif roll < -10:
                         direction = "left"
-                        player.x_change = -5
+                        player.x_change = -10
                     else:
                         player.x_change = 0
 
-                    if smile_detected(0.54):  # 0.54
+                    if smile_detected(0.54):
                         direction = direction + " , Smiling"
                         if laser.state == "inactive":
                             laser.x_pos = player.x_pos
                             laser.fire()
 
+                    # activate the player's shield when their mouth is open (max 3 times)
                     if is_mouth_open() and player.shield_activated is False:
                         direction = direction + " , Mouth Open"
                         player.shield_activation_num += 1
@@ -222,8 +250,8 @@ def run_game(result_metrics, file_name):
             if shield_timer_running:  # while the shield is activated
                 elapsed_shield_time = time.time() - start_shield_time
 
-                # shield is activated for 5 seconds
-                if elapsed_shield_time >= 5:
+                # shield is activated for 3 seconds
+                if elapsed_shield_time >= 3:
                     stop_shield_timer()
                     player.shield_activated = False
                     player.is_shield_activated()
@@ -250,7 +278,7 @@ def run_game(result_metrics, file_name):
                 hits_from_invaders += 1  # when the player is hit by an alien
 
             # if alien invaders reach bottom of screen
-            if any(alien.y_pos > 440 for alien in aliens):
+            if any(alien.y_pos > 460 for alien in aliens):
                 failed_game = True
                 result_metrics["number_of_game_failures"] += 1
                 result_metrics["scores_per_game"] += [score]
@@ -273,7 +301,7 @@ def run_game(result_metrics, file_name):
                         continue
 
                 # reset game stats so player starts from 0
-                player = Player()  # maybe make laser a player attribute?
+                player = Player()
                 aliens = [Alien() for _ in range(6)]
                 laser = Laser()
                 alien_laser = Laser()
@@ -296,7 +324,11 @@ def run_game(result_metrics, file_name):
                 result_metrics["scores_per_game"] += [score]
                 result_metrics["hits_from_invaders_per_game"] += [hits_from_invaders]
 
-            frame_60 = resize_video_output(rgb_frame, 0.5)
+            max_dimension = max(rgb_frame.shape[0], rgb_frame.shape[1])
+            total_display_width = display.get_width()
+            scale_value = round((total_display_width - 800) / max_dimension, 3)
+
+            frame_60 = resize_video_output(rgb_frame, scale_value)
             rgb_frame = frame_60
             rgb_frame = np.flip(rgb_frame, 0)  # mirror the video stream
             rgb_frame = np.rot90(rgb_frame, 3)  # rotate the video stream so its upwards

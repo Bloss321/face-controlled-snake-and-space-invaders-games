@@ -55,8 +55,7 @@ class Snake:
         head = self.body[-1]
         body = self.body.copy()
         body.pop()
-        for snake_square in body:
-            if head.x == snake_square.x and head.y == snake_square.y:
-                self.has_eaten_itself = True
-            if head.x not in range(0, self.display_width) or head.y not in range(0, self.display_height):
-                self.is_out_of_bounds = True
+        if head in body:
+            self.has_eaten_itself = True
+        if head.x not in range(0, self.display_width) or head.y not in range(0, self.display_height):
+            self.is_out_of_bounds = True

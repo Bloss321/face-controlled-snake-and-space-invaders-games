@@ -1,9 +1,7 @@
-
 import time
 
 import pygame
 
-from game.countdown.game_countdown import start_game_countdown
 from game.snake.helper import Direction
 from game.snake.snake import Snake
 from game.snake.food import Food
@@ -21,7 +19,7 @@ display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Hand-controlled Snake Game via keyboard')
 
 clock = pygame.time.Clock()
-snake_speed = 3.8
+snake_speed = 3
 
 
 def increase_snake_speed():
@@ -52,8 +50,8 @@ def display_timer(time: int):
 
 
 def check_failure_state(snake: Snake, result_metrics):
-    failed_game = False
-    if snake.has_eaten_itself is True or snake.is_out_of_bounds is True:  # extract this method for testing
+    failed_game = False  # failed game if snake out of bounds or snake eats its own tail
+    if snake.has_eaten_itself is True or snake.is_out_of_bounds is True:
         failed_game = True
         result_metrics["number_of_game_failures"] += 1
         score = snake.length - 2
@@ -62,22 +60,33 @@ def check_failure_state(snake: Snake, result_metrics):
     return failed_game
 
 
+# ensure display always set at same value when returning to game
+def update_global_screen():
+    global display
+    screen = pygame.display.set_mode((display_width, display_height))
+    display = screen
+
+# ADDED!
+def generate_new_food(loop_count: int, food_arr, display):
+    game_grid_area = (display_width / grid_square_size) * (display_height / grid_square_size)
+    max_foods = game_grid_area / 10  # up to 10% of game grid filled with fruits at most
+    if loop_count % 500 == 0 and len(food_arr) < max_foods:
+        new_food = Food(display, grid_square_size, display_width, display_height)
+        food_arr.append(new_food)
+    return food_arr
+
+
 def run_game(result_metrics, file_name):
+    update_global_screen()
     game_over = False
     failed_game = False
     counter = 0
 
     snake = Snake(grid_square_size, display_width, display_height)
-    food = Food(display, grid_square_size, display_width, display_height)  # was 600, 600
+    food = Food(display, grid_square_size, display_width, display_height)
     food_arr = [food]
 
-    game_grid_area = (display_width / grid_square_size) * (display_height / grid_square_size)
-    max_foods = game_grid_area / 10  # up to 10% of game grid filled with fruits at most
-
-    def generate_new_food(loop_count: int):
-        if loop_count % 25 == 0 and len(food_arr) < max_foods:
-            new_food = Food(display, grid_square_size, display_width, display_height)
-            food_arr.append(new_food)
+    from game.countdown.game_countdown import start_game_countdown
 
     # start 3-second countdown at beginning of game
     if counter == 0:
@@ -105,6 +114,7 @@ def run_game(result_metrics, file_name):
                 display.blit(message, (display_width / 7, display_height / 20))
                 pygame.display.update()
 
+                # break if time over 2 minutes and game is over
                 if time.time() - start > 120:
                     break
                 else:
@@ -117,10 +127,14 @@ def run_game(result_metrics, file_name):
                 break
 
         for event in pygame.event.get():
-            # remove in final version
             if event.type == pygame.QUIT:
                 game_over = True
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    game_over = True
+
+            # keyboard-controlled logic, snake moves direction after single keypress from user
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
                     snake.direction = Direction.RIGHT
@@ -136,24 +150,29 @@ def run_game(result_metrics, file_name):
         display_score(snake.length - 2)
         display_timer(120 - int(time.time() - start))
 
+        # generate game assets
         snake.generate_snake_body(display)
-        generate_new_food(counter)
+        # generate_new_food(counter)
+        food_arr = generate_new_food(counter, food_arr, display)
 
         for fruit in food_arr:
             fruit.generate_food()
             snake.eat_food(fruit)
 
-        snake.move_snake()
+        # reduce speed of snake, only update position ever 20 frames
+        if counter % 20 == 0:
+            snake.move_snake()
 
         failed_game = check_failure_state(snake, result_metrics)
 
+        # game ends once timer hits 2 minutes
         if time.time() - start > 120:
             game_over = True
             score = snake.length - 2
-            result_metrics["scores_per_game"] += [score]  # something strange about this
+            result_metrics["scores_per_game"] += [score]
 
         pygame.display.update()
-        clock.tick(snake_speed)
+        clock.tick(60)
 
     print("Keyboard-controlled Snake Game")
     print(result_metrics)

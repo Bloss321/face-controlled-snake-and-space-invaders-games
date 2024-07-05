@@ -5,8 +5,8 @@ class Player:
     image = None
 
     def __init__(self):
-        self.x_pos = 370
-        self.y_pos = 480
+        self.x_pos = 400  # 370
+        self.y_pos = 500  # 480
         self.x_change = 0
         # shield activation power-up logic
         self.shield_activated = False  # for when the player's shield is activated

@@ -1,0 +1,11 @@
+Mean Squared Error (Pitch): 0.02070948131119621
+Mean Squared Error (Yaw): 0.024283395462503642
+Mean Squared Error (Roll): 0.022485678722176453
+
+Mean Absolute Error (Pitch): 0.08842818024825494
+Mean Absolute Error (Yaw): 0.08945610722413397
+Mean Absolute Error (Roll): 0.06713969740707591
+
+R-Squared Value (Pitch): 0.716265816446432
+R-Squared Value (Yaw): 0.9040618870426038
+R-Squared Value (Roll): 0.7768387776335263

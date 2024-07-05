@@ -1,0 +1,40 @@
+
+ Illumination Robustness Test Results
+Average MediaPipe detected frames percentage: 99.9650%
+Average Dlib detected frames percentage: 84.9893%
+Average OpenCV detected frames percentage: 75.3583%
+Average DeepFace detected frames percentage: 63.2952%
+Average MTCNN detected frames percentage: 99.7826%
+Average FaceRecognition detected frames percentage: 90.7693%
+
+ Skin Tone Variation Robustness Test Results
+Average MediaPipe detected frames percentage: 100.0000%
+Average Dlib detected frames percentage: 95.0356%
+Average OpenCV detected frames percentage: 95.0784%
+Average DeepFace detected frames percentage: 86.6744%
+Average MTCNN detected frames percentage: 100.0000%
+Average FaceRecognition detected frames percentage: 95.9205%
+
+ Pose Variation Robustness Test Results
+Average MediaPipe detected frames percentage: 90.4910%
+Average Dlib detected frames percentage: 72.0712%
+Average OpenCV detected frames percentage: 76.0732%
+Average DeepFace detected frames percentage: 51.8515%
+Average MTCNN detected frames percentage: 98.8403%
+Average FaceRecognition detected frames percentage: 73.4707%
+
+ Face Expression Variation Robustness Test Results
+Average MediaPipe detected frames percentage: 99.9019%
+Average Dlib detected frames percentage: 92.1490%
+Average OpenCV detected frames percentage: 93.1075%
+Average DeepFace detected frames percentage: 80.5086%
+Average MTCNN detected frames percentage: 99.5775%
+Average FaceRecognition detected frames percentage: 94.7419%
+
+ Occlusions Robustness Test Results
+Average MediaPipe detected frames percentage: 99.2460%
+Average Dlib detected frames percentage: 74.2389%
+Average OpenCV detected frames percentage: 83.8023%
+Average DeepFace detected frames percentage: 63.0818%
+Average MTCNN detected frames percentage: 99.7651%
+Average FaceRecognition detected frames percentage: 74.9022%
