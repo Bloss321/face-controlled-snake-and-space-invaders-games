@@ -20,7 +20,15 @@ To run the game you just need to run the main.py file
 ### Snake 
 
 
+https://github.com/Bloss321/face-controlled-snake-and-space-invaders-games/assets/158175897/984c32df-6aa8-473e-8b54-5aef989ac3a4
+
+
+
 ### Space Invaders 
+
+
+https://github.com/Bloss321/face-controlled-snake-and-space-invaders-games/assets/158175897/055238f5-29d5-427d-af2d-234b1e3bd58a
+
 
 
 ## Finding Relevant Code
