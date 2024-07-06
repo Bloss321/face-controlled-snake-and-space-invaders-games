@@ -1,8 +1,8 @@
 # Face-Controlled Snake and Space Invaders Games
 
 ## Overview 
-This is project is an innovative take on the classic Snake and Space Invaders games that uses 
-head movements and facial expressions for control, providing an immersive gaming experience. 
+This is project is an innovative take on the classic Snake and Space Invaders games, using head movements and 
+facial expressions for control, providing an immersive gaming experience. 
 
 MediaPipe is used for robust face tracking and Pygame for game development. These games eliminate the need for 
 traditional input devices and offers an intuitive way to play.
