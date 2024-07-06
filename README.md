@@ -37,7 +37,7 @@ the snake and space invaders games have been written.
 
 The game logic is called in the `main.py` file
 
-The tests and models for the SVR head pose estimator can be found in 
+The tests and models for the SVR (Support Vector Regression) based head pose estimator can be found in 
 `face_tracking/svr_head_pose_estimation`
 
 
